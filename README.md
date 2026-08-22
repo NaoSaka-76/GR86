@@ -11,7 +11,7 @@ GitHub Pagesは静的サイトのみでサーバー側処理ができないた�
 取得できず、アクセスごとに実スクレイピングを走らせるとレート制限で機能停止するリスクが
 高い)。そのため「アクセスの都度更新」の実質的な代替として、30分おきの自動更新を採用している。
 
-**公開ページ:** `https://nao-saka-76.github.io/GR86/` (Settings > Pages で GitHub Actions を
+**公開ページ:** `https://naosaka-76.github.io/GR86/` (Settings > Pages で GitHub Actions を
 ソースに設定後、`update-dashboard` ワークフローの実行により自動的に公開される)
 
 ## 集約している情報
