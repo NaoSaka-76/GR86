@@ -1,0 +1,9 @@
+# 自動生成される最新データ(GitHub Actionsが30分おきに再生成し、Pagesとしてデプロイする)。
+# 静的な手動収集データ(rivals.json)はこのignore対象に含めない。
+site/data/latest.json
+
+__pycache__/
+*.pyc
+.venv/
+venv/
+.DS_Store

@@ -1,0 +1,172 @@
+{
+  "note": {
+    "ja": "GR86/BRZと同価格帯・同カテゴリでよく比較検討されるライバル車の参考スペック集。手動で調査・更新しており(30分おきの自動収集の対象外)、価格・数値は年式や仕様・情報源により変動するため参考値としてご利用ください。未確認の数値は「reference-only」として明示しています。",
+    "en": "A hand-curated reference catalog of rival vehicles commonly cross-shopped against the GR86/BRZ in the same price band and category. Unlike the auto-scraped sections, this is manually researched and updated occasionally, not every 30 minutes. Prices/figures vary by model year, trim, and source — treat as reference values. Unconfirmed figures are marked reference-only.",
+    "last_updated": "2026-08-22"
+  },
+  "rivals": [
+    {
+      "key": "civic_type_r",
+      "make": { "ja": "ホンダ", "en": "Honda" },
+      "model": { "ja": "シビック タイプR", "en": "Civic Type R" },
+      "year": 2025,
+      "price_usd_from": 45895,
+      "engine": { "ja": "2.0L 直列4気筒ターボ", "en": "2.0L turbocharged inline-4" },
+      "horsepower_hp": 315,
+      "torque_lb_ft": 310,
+      "zero_to_60_sec": 5.5,
+      "zero_to_60_note": {
+        "ja": "Edmunds実測値。メーカー公表値とは異なる場合あり",
+        "en": "As tested by Edmunds; may differ from manufacturer claims"
+      },
+      "drivetrain": "FWD",
+      "layout_note": { "ja": "フロントエンジン", "en": "Front-engine" },
+      "transmission": { "ja": "6速MTのみ(ATなし)", "en": "6-speed manual only (no automatic offered)" },
+      "curb_weight_lb": 3188,
+      "curb_weight_confirmed": false,
+      "sources": ["Edmunds", "Carbuzz"],
+      "why_rival": {
+        "ja": "同価格帯のFF最強ホットハッチ。MT専用・走り重視の姿勢がGR86/BRZと直接競合",
+        "en": "A top-tier FWD hot hatch in a similar price band; manual-only, driver-focused positioning puts it in direct cross-shop territory with GR86/BRZ"
+      }
+    },
+    {
+      "key": "gr_supra",
+      "make": { "ja": "トヨタ", "en": "Toyota" },
+      "model": { "ja": "GRスープラ 2.0L(2024年モデルまで。2025年モデルは3.0L I6のみに整理)", "en": "GR Supra 2.0L (discontinued after MY2024; 2025 MY is 3.0L I6 only)" },
+      "year": 2024,
+      "price_usd_from": 46635,
+      "engine": { "ja": "2.0L 直列4気筒ターボ", "en": "2.0L turbocharged inline-4" },
+      "horsepower_hp": 255,
+      "torque_lb_ft": 295,
+      "zero_to_60_sec": 5.0,
+      "zero_to_60_note": { "ja": "トヨタ公表値", "en": "Manufacturer claim" },
+      "drivetrain": "RWD",
+      "layout_note": { "ja": "フロントミッドシップ", "en": "Front-mid engine" },
+      "transmission": { "ja": "8速ATのみ(2.0Lグレードに6速MT設定なし)", "en": "8-speed automatic only (no manual on the 2.0L grade)" },
+      "curb_weight_lb": null,
+      "curb_weight_confirmed": false,
+      "sources": ["Cars.com", "KBB"],
+      "why_rival": {
+        "ja": "同じトヨタGRブランドのFRスポーツ。GR86よりワンランク上の価格帯だが、GRファンの比較対象として定番",
+        "en": "Toyota's own GR-branded RWD sports car, one price tier above the GR86 — a natural comparison point for GR-brand shoppers"
+      }
+    },
+    {
+      "key": "nissan_z",
+      "make": { "ja": "日産", "en": "Nissan" },
+      "model": { "ja": "フェアレディZ(Sport)", "en": "Z (Sport)" },
+      "year": 2025,
+      "price_usd_from": 42970,
+      "engine": { "ja": "3.0L V6 ツインターボ", "en": "3.0L twin-turbocharged V6" },
+      "horsepower_hp": 400,
+      "torque_lb_ft": 350,
+      "zero_to_60_sec": 4.5,
+      "zero_to_60_note": { "ja": "MT時。AT(9速)は約4.3秒とされる(情報源により差あり)", "en": "Manual transmission; automatic (9-speed) reported around 4.3s — varies by source" },
+      "drivetrain": "RWD",
+      "layout_note": { "ja": "フロントエンジン", "en": "Front-engine" },
+      "transmission": { "ja": "6速MT または 9速AT", "en": "6-speed manual or 9-speed automatic" },
+      "curb_weight_lb": 3549,
+      "curb_weight_confirmed": true,
+      "sources": ["Edmunds", "KBB", "CarsDirect"],
+      "why_rival": {
+        "ja": "GR86/BRZよりパワフルな直系ライバル。同じFRクーペ・MT設定ありという構図で頻繁に比較される",
+        "en": "A more powerful direct rival — same RWD coupe layout with manual availability makes it a frequent head-to-head comparison"
+      }
+    },
+    {
+      "key": "mustang",
+      "make": { "ja": "フォード", "en": "Ford" },
+      "model": { "ja": "マスタング EcoBoost / GT", "en": "Mustang EcoBoost / GT" },
+      "year": 2025,
+      "price_usd_from": 33915,
+      "engine": { "ja": "EcoBoost: 2.3L 直4ターボ / GT: 5.0L NA V8", "en": "EcoBoost: 2.3L turbo inline-4 / GT: 5.0L naturally aspirated V8" },
+      "horsepower_hp": 315,
+      "horsepower_note": { "ja": "EcoBoost値。GT V8は480〜486hp(情報源により差あり)", "en": "EcoBoost figure shown; GT V8 is 480-486 hp depending on source" },
+      "torque_lb_ft": 350,
+      "zero_to_60_sec": 4.6,
+      "zero_to_60_note": {
+        "ja": "EcoBoost目安(情報源により4.5〜4.7秒)。GT V8は変速機により3.9〜4.8秒",
+        "en": "EcoBoost approximate (sources range 4.5-4.7s); GT V8 ranges 3.9-4.8s depending on transmission/tester"
+      },
+      "drivetrain": "RWD",
+      "layout_note": { "ja": "フロントエンジン", "en": "Front-engine" },
+      "transmission": { "ja": "EcoBoost: 10速ATのみ / GT: 6速MT or 10速AT", "en": "EcoBoost: 10-speed automatic only / GT: 6-speed manual or 10-speed automatic" },
+      "curb_weight_lb": null,
+      "curb_weight_confirmed": false,
+      "sources": ["Edmunds", "KBB", "Carbuzz", "Ford.com"],
+      "why_rival": {
+        "ja": "EcoBoostは価格帯が近いFRスポーツ、GT V8はパワー志向層の比較対象として併記",
+        "en": "EcoBoost is price-comparable RWD sport coupe; GT V8 included as the comparison point for power-focused shoppers"
+      }
+    },
+    {
+      "key": "mx5_miata",
+      "make": { "ja": "マツダ", "en": "Mazda" },
+      "model": { "ja": "ロードスター(MX-5 Miata)", "en": "MX-5 Miata (Roadster)" },
+      "year": 2025,
+      "price_usd_from": 29530,
+      "engine": { "ja": "2.0L 直列4気筒NA", "en": "2.0L naturally aspirated inline-4" },
+      "horsepower_hp": 181,
+      "torque_lb_ft": 151,
+      "zero_to_60_sec": 5.9,
+      "zero_to_60_note": { "ja": "6秒未満とされる(情報源により差あり)", "en": "Reported under 6 seconds; varies by source" },
+      "drivetrain": "RWD",
+      "layout_note": { "ja": "フロントミッドシップ、軽量オープン2シーター", "en": "Front-mid engine, lightweight open-top 2-seater" },
+      "transmission": { "ja": "6速MT(Grand Touringのみ6速ATも選択可)", "en": "6-speed manual (6-speed automatic also available on Grand Touring)" },
+      "curb_weight_lb": 2440,
+      "curb_weight_note": { "ja": "グレードにより2,366〜2,515lb", "en": "Ranges 2,366-2,515 lb depending on trim" },
+      "curb_weight_confirmed": true,
+      "sources": ["Autoblog", "KBB", "Edmunds"],
+      "why_rival": {
+        "ja": "本ダッシュボードでは追跡対象車両としても別途扱っているが、スペック比較の対象としても定番のライバル。GR86/BRZより軽量・非力だが、オープンボディという軸で比較される",
+        "en": "Also independently tracked as one of this dashboard's own monitored vehicles, but included here too as a classic spec-comparison rival — lighter and less powerful than GR86/BRZ, compared primarily on its open-top layout"
+      }
+    },
+    {
+      "key": "elantra_n",
+      "make": { "ja": "ヒョンデ(現代)", "en": "Hyundai" },
+      "model": { "ja": "エラントラN", "en": "Elantra N" },
+      "year": 2025,
+      "price_usd_from": 34350,
+      "engine": { "ja": "2.0L 直列4気筒ターボ", "en": "2.0L turbocharged inline-4" },
+      "horsepower_hp": 276,
+      "horsepower_note": { "ja": "N Grin Boost使用時(DCTのみ)は最大286hp", "en": "Up to 286 hp with N Grin Boost (DCT trim only)" },
+      "torque_lb_ft": 289,
+      "zero_to_60_sec": 4.8,
+      "zero_to_60_note": { "ja": "DCT+ローンチコントロール時。MT時は約5.2秒", "en": "DCT with launch control; manual is approximately 5.2s" },
+      "drivetrain": "FWD",
+      "layout_note": { "ja": "フロントエンジン", "en": "Front-engine" },
+      "transmission": { "ja": "6速MT または 8速DCT", "en": "6-speed manual or 8-speed DCT" },
+      "curb_weight_lb": 3186,
+      "curb_weight_confirmed": true,
+      "sources": ["Carbuzz", "Edmunds"],
+      "why_rival": {
+        "ja": "GR86/BRZより手頃な価格帯のスポーツセダン。MT設定ありという共通点で比較されることが多い",
+        "en": "A more affordable sport sedan; frequently compared for sharing manual-transmission availability with GR86/BRZ"
+      }
+    },
+    {
+      "key": "golf_gti",
+      "make": { "ja": "フォルクスワーゲン", "en": "Volkswagen" },
+      "model": { "ja": "ゴルフGTI", "en": "Golf GTI" },
+      "year": 2025,
+      "price_usd_from": 34945,
+      "engine": { "ja": "2.0L 直列4気筒ターボ", "en": "2.0L turbocharged inline-4" },
+      "horsepower_hp": 241,
+      "torque_lb_ft": 273,
+      "zero_to_60_sec": 5.7,
+      "zero_to_60_note": { "ja": "情報源によるおおよその目安値", "en": "Approximate figure per available sources" },
+      "drivetrain": "FWD",
+      "layout_note": { "ja": "フロントエンジン", "en": "Front-engine" },
+      "transmission": { "ja": "7速DCTのみ(2025年モデルの米国仕様はMT設定なし)", "en": "7-speed DCT only (2025 US-spec has no manual option; earlier model years offered a manual)" },
+      "curb_weight_lb": 3185,
+      "curb_weight_confirmed": true,
+      "sources": ["Edmunds", "Carbuzz", "iSeeCars", "KBB"],
+      "why_rival": {
+        "ja": "定番のホットハッチ。GR86/BRZより実用性重視だが同価格帯の走り好き層で比較対象になる",
+        "en": "The archetypal hot hatch; more practicality-focused than GR86/BRZ but a common cross-shop for driving enthusiasts in the same price band"
+      }
+    }
+  ]
+}
