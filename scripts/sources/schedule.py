@@ -25,7 +25,7 @@ GR_CUP_BASE_URL = "https://www.grcupseries.com"
 GR_CUP_CALENDAR_URL = f"{GR_CUP_BASE_URL}/calendar"
 
 JP_86BRZ_CUP_URL = "https://toyotagazooracing.com/jp/86brz/about/"
-GR_CUP_AUSTRALIA_URL = "https://www.toyota.com.au/gazoo-racing/gr-cup"
+GR_CUP_AUSTRALIA_URL = "https://www.toyota.com.au/gazoo-racing/gr-cup/races"
 MX5_CUP_SCHEDULE_URL = "https://www.mx-5cup.com/schedule"
 
 _MONTH_NUM = {
