@@ -1,13 +1,25 @@
-"""GR86 Watchダッシュボード用データ(GR86 / BRZ / ロードスター(MX-5))を収集し、
+"""GR86 Watchダッシュボード用データ(GR86 / トヨタ86 / BRZ / ロードスター(MX-5))を収集し、
 site/data/latest.jsonへ出力する。
 
 30分おきにGitHub Actionsから実行される想定。
+
+セクション構成(2026年8月の再編後):
+  1. news_reviews_gr86  — GR86の公式リリース+メディア評価記事を統合した1パネル
+  2. news_reviews_other — BRZ + ロードスター(MX-5)の公式リリース+メディア評価記事を統合した1パネル
+  3. youtube             — GR86/トヨタ86/BRZ/ロードスターの人気(トレンド)/新着(最新)動画
+  4. social_buzz         — 同4車種のSNS話題(トレンド/最新タブ切替)
+  5. complaints          — GR86/BRZ/ロードスターのお客様の声・クレーム(トレンド/最新タブ切替)
+  6. events              — 世界各地のイベント情報(従来どおり)
+  7. motorsports + gr_cup_roster — GR86モータースポーツ(トピックス速報 + フォーマット静的解説)
+
+トヨタ86(GT86/FT86)はYouTube/SNS話題のみを対象とする(生産終了モデルのため公式リリース/
+メディア評価/クレームは対象外。events/motorsportsも対象外)。
 """
 
 from __future__ import annotations
 
-import json
 from datetime import datetime, timezone, timedelta
+import json
 from pathlib import Path
 
 from sources import (
@@ -21,25 +33,86 @@ from sources import (
     social_buzz,
     youtube,
 )
+from sources.common import sort_by_recency
 
 JST = timezone(timedelta(hours=9))
 OUTPUT_PATH = Path(__file__).resolve().parent.parent / "site" / "data" / "latest.json"
 
 YOUTUBE_QUERIES_GLOBAL = {
     "gr86": ["Toyota GR86", "GR86 Cup Edition"],
+    "toyota86": ["Toyota 86 GT86", "Toyota FT86"],
     "brz": ["Subaru BRZ"],
     "mx5": ["Mazda MX-5 Miata", "Mazda MX-5"],
 }
 
 YOUTUBE_QUERIES_JP = {
     "gr86": ["GR86 トヨタ"],
+    "toyota86": ["トヨタ86 GT86", "FT86"],
     "brz": ["BRZ スバル"],
     "mx5": ["ロードスター マツダ"],
 }
 
+GR86_ONLY = {"gr86"}
+BRZ_MX5 = {"brz", "mx5"}
+
 
 def _with_sentiment(items: list[dict]) -> list[dict]:
     return sentiment.attach_sentiment(items)
+
+
+def _news_reviews_sections() -> dict:
+    """公式リリース(official_news)とメディア評価(media_reviews)を統合し、車種グループ別に
+    2パネル分の項目リストへ分割する。各項目には "kind" (official_news / media_review) を
+    付与し、フロントエンド側で種別バッジを出せるようにする。
+    """
+    official_items = _with_sentiment(official_news.fetch())
+    for item in official_items:
+        item["kind"] = "official_news"
+
+    media_items = _with_sentiment(media_reviews.fetch())
+    for item in media_items:
+        item["kind"] = "media_review"
+
+    combined = official_items + media_items
+    gr86_items = sort_by_recency([it for it in combined if it.get("vehicle") in GR86_ONLY])
+    other_items = sort_by_recency([it for it in combined if it.get("vehicle") in BRZ_MX5])
+
+    return {
+        "news_reviews_gr86": {
+            "label": "GR86 公式リリース & メディア評価",
+            "items": gr86_items,
+        },
+        "news_reviews_other": {
+            "label": "BRZ / ロードスター(MX-5) 公式リリース & メディア評価",
+            "items": other_items,
+        },
+    }
+
+
+def _youtube_section() -> dict:
+    youtube_global = youtube.fetch_for_vehicles(YOUTUBE_QUERIES_GLOBAL, hl="en", gl="US")
+    youtube_jp = youtube.fetch_for_vehicles(YOUTUBE_QUERIES_JP, hl="ja", gl="JP")
+    return {
+        "label": "YouTube(GR86 / トヨタ86 / BRZ / ロードスター)",
+        "global": {
+            "popular": _with_sentiment(youtube_global["popular"]),
+            "new": _with_sentiment(youtube_global["new"]),
+        },
+        "jp": {
+            "popular": _with_sentiment(youtube_jp["popular"]),
+            "new": _with_sentiment(youtube_jp["new"]),
+        },
+    }
+
+
+def _social_buzz_section() -> dict:
+    buzz_data = social_buzz.fetch()
+    return {
+        "label": "SNSでの話題(GR86 / トヨタ86 / BRZ / ロードスター)",
+        "items": _with_sentiment(buzz_data["items_latest"]),
+        "items_buzz": _with_sentiment(buzz_data["items_buzz"]),
+        "note": buzz_data["note"],
+    }
 
 
 def _motorsports_section() -> dict:
@@ -57,7 +130,9 @@ def _motorsports_section() -> dict:
             "のみ公式サイト(grcupseries.com)の実データからチーム/ドライバーズランキングと"
             "年間スケジュールをグラフ・一覧表示しています。他の地域/シリーズは公式サイトの"
             "構造上の理由により実データ化しておらず、各カード内に理由を記載のうえニュース"
-            "集約とリンクのみとしています。"
+            "集約とリンクのみとしています。各シリーズの競技フォーマット(参戦資格・ポイント"
+            "制度・レースウィークエンド構成)は手動調査の静的解説(site/data/"
+            "motorsports_formats.json)を別途ご参照ください。"
         ),
     }
 
@@ -74,66 +149,37 @@ def build_dashboard() -> dict:
     now_utc = datetime.now(timezone.utc)
     now_jst = now_utc.astimezone(JST)
 
-    youtube_global = youtube.fetch_for_vehicles(YOUTUBE_QUERIES_GLOBAL, hl="en", gl="US")
-    youtube_jp = youtube.fetch_for_vehicles(YOUTUBE_QUERIES_JP, hl="ja", gl="JP")
-    buzz_data = social_buzz.fetch()
     complaint_data = complaints.fetch()
+
+    sections = {}
+    sections.update(_news_reviews_sections())
+    sections["youtube"] = _youtube_section()
+    sections["social_buzz"] = _social_buzz_section()
+    sections["complaints"] = {
+        "label": "お客様の声・クレーム関連情報(GR86 / BRZ / ロードスター)",
+        "items": _with_sentiment(complaint_data["items_latest"]),
+        "items_buzz": _with_sentiment(complaint_data["items_buzz"]),
+        "note": complaint_data["note"],
+    }
+    sections["events"] = {
+        "label": "世界各地のイベント情報",
+        "items": _with_sentiment(events.fetch()),
+        "note": (
+            "発売告知やスペック発表などのプレスリリース記事は除外し、オーナーズミーティング/"
+            "ミートアップ、試乗会・体験会、著名モーターショーへの展示・出展など「人が集まる」"
+            "イベントに絞ってニュース記事から新着順で集約した簡易カレンダーです。正確な日程・"
+            "開催地は記事本文でしか分からないため(Google Newsのリンクは本文取得ができない"
+            "仕組み)、参加を検討する際は必ず元記事を開いて日程・場所をご確認ください。公式の"
+            "イベント日程一覧ではありません。"
+        ),
+    }
+    sections["motorsports"] = _motorsports_section()
+    sections["gr_cup_roster"] = _roster_section()
 
     return {
         "generated_at_utc": now_utc.isoformat(),
         "generated_at_jst": now_jst.strftime("%Y-%m-%d %H:%M JST"),
-        "sections": {
-            "official_news": {
-                "label": "公式リリース(トヨタ/スバル/マツダ)",
-                "items": _with_sentiment(official_news.fetch()),
-            },
-            "youtube_popular": {
-                "label": "YouTube 人気動画(グローバル)",
-                "items": _with_sentiment(youtube_global["popular"]),
-            },
-            "youtube_new": {
-                "label": "YouTube 新着動画(グローバル)",
-                "items": _with_sentiment(youtube_global["new"]),
-            },
-            "youtube_popular_jp": {
-                "label": "YouTube 人気動画(日本語)",
-                "items": _with_sentiment(youtube_jp["popular"]),
-            },
-            "youtube_new_jp": {
-                "label": "YouTube 新着動画(日本語)",
-                "items": _with_sentiment(youtube_jp["new"]),
-            },
-            "social_buzz": {
-                "label": "SNSでの話題(X/Facebook 代替指標)",
-                "items": _with_sentiment(buzz_data["items"]),
-                "note": buzz_data["note"],
-            },
-            "media_reviews": {
-                "label": "自動車メディア評価記事",
-                "items": _with_sentiment(media_reviews.fetch()),
-            },
-            "complaints": {
-                "label": "お客様の声・クレーム関連情報",
-                "items": _with_sentiment(complaint_data["items_latest"]),
-                "items_buzz": _with_sentiment(complaint_data["items_buzz"]),
-                "note": complaint_data["note"],
-            },
-            "motorsports": _motorsports_section(),
-            "gr_cup_roster": _roster_section(),
-            "events": {
-                "label": "世界各地のイベント情報",
-                "items": _with_sentiment(events.fetch()),
-                "note": (
-                    "発売告知やスペック発表などのプレスリリース記事は除外し、オーナーズ"
-                    "ミーティング/ミートアップ、試乗会・体験会、著名モーターショーへの展示・"
-                    "出展など「人が集まる」イベントに絞ってニュース記事から新着順で集約した"
-                    "簡易カレンダーです。正確な日程・開催地は記事本文でしか分からないため"
-                    "(Google Newsのリンクは本文取得ができない仕組み)、参加を検討する際は"
-                    "必ず元記事を開いて日程・場所をご確認ください。公式のイベント日程一覧では"
-                    "ありません。"
-                ),
-            },
-        },
+        "sections": sections,
     }
 
 

@@ -22,9 +22,12 @@
   --neutral-soft: #23252c;
   --warn: #e8a93a;
 
-  /* 車種別バッジカラー(装飾用途。GR86=レーシングレッド, BRZ=スバル系ブルー, MX-5=ソウルレッド寄りのオレンジ) */
+  /* 車種別バッジカラー(装飾用途。GR86=レーシングレッド, トヨタ86=グレー(旧型/生産終了を示唆),
+     BRZ=スバル系ブルー, MX-5=ソウルレッド寄りのオレンジ) */
   --veh-gr86: #ff3b4e;
   --veh-gr86-soft: #3a1218;
+  --veh-toyota86: #b7bcc7;
+  --veh-toyota86-soft: #2a2c33;
   --veh-brz: #4fa3ff;
   --veh-brz-soft: #132437;
   --veh-mx5: #ff8a3d;
@@ -234,6 +237,7 @@ a { color: inherit; }
   color: var(--bg);
 }
 .vehicle-filter__btn[data-vehicle="gr86"].is-active { background: var(--veh-gr86); border-color: var(--veh-gr86); color: #1a0304; }
+.vehicle-filter__btn[data-vehicle="toyota86"].is-active { background: var(--veh-toyota86); border-color: var(--veh-toyota86); color: #16171c; }
 .vehicle-filter__btn[data-vehicle="brz"].is-active { background: var(--veh-brz); border-color: var(--veh-brz); color: #051524; }
 .vehicle-filter__btn[data-vehicle="mx5"].is-active { background: var(--veh-mx5); border-color: var(--veh-mx5); color: #241100; }
 
@@ -359,8 +363,23 @@ a { color: inherit; }
   white-space: nowrap;
 }
 .vehicle-badge--gr86 { color: var(--veh-gr86); background: var(--veh-gr86-soft); }
+.vehicle-badge--toyota86 { color: var(--veh-toyota86); background: var(--veh-toyota86-soft); }
 .vehicle-badge--brz { color: var(--veh-brz); background: var(--veh-brz-soft); }
 .vehicle-badge--mx5 { color: var(--veh-mx5); background: var(--veh-mx5-soft); }
+
+.kind-badge {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: var(--surface-sunken);
+  border: 1px solid var(--line);
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+.kind-badge--official_news { color: var(--accent); border-color: var(--accent); }
 
 .sentiment-pill {
   display: inline-flex; align-items: center; gap: 4px;
@@ -450,6 +469,27 @@ a { color: inherit; }
 .roster-card__badge { font-family: var(--font-display); font-size: 0.62rem; font-weight: 800; letter-spacing: 0.04em; padding: 1px 6px; border-radius: 4px; background: var(--warn); color: #241a00; align-self: flex-start; }
 .roster-card__link { font-size: 0.76rem; color: var(--accent); text-decoration: none; }
 .roster-card__link:hover { text-decoration: underline; }
+
+/* ---- Motorsports format explainer panel ---- */
+
+.formats-grid { padding: 16px 20px 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+.format-card { border: 1px solid var(--line); border-radius: 10px; padding: 14px; background: var(--surface-raised); display: flex; flex-direction: column; gap: 10px; }
+.format-card__title { font-weight: 700; font-size: 0.95rem; color: var(--ink); }
+.format-card__confidence {
+  align-self: flex-start;
+  font-family: var(--font-display); font-weight: 800; font-size: 0.6rem; letter-spacing: 0.04em;
+  padding: 1px 7px; border-radius: 999px; text-transform: uppercase;
+}
+.format-card__confidence--official { background: var(--good-soft); color: var(--good); }
+.format-card__confidence--media_report { background: var(--warn); color: #241a00; }
+.format-card__confidence--unavailable { background: var(--neutral-soft); color: var(--ink-muted); }
+.format-card__row { font-size: 0.8rem; line-height: 1.6; }
+.format-card__row-label { font-family: var(--font-display); font-weight: 700; font-size: 0.68rem; letter-spacing: 0.06em; color: var(--ink-muted); text-transform: uppercase; display: block; margin-bottom: 2px; }
+.format-card__row-value { color: var(--ink); }
+.format-card__unavailable { font-size: 0.8rem; color: var(--ink-muted); font-style: italic; }
+.format-card__sources { font-size: 0.7rem; color: var(--ink-muted); margin-top: 4px; }
+.format-card__sources a { color: var(--accent); text-decoration: none; }
+.format-card__sources a:hover { text-decoration: underline; }
 
 /* ---- Rivals panel ---- */
 

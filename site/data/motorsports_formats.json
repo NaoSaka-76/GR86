@@ -1,0 +1,102 @@
+{
+  "note": {
+    "ja": "各シリーズの参戦資格・ポイント制度・レースウィークエンド構成などの「競技フォーマット」は、ニュース速報とは別に手動調査した静的な参考情報です(30分おきの自動更新の対象外)。確認できた情報の粒度・確度はシリーズごとに異なり、公開情報で確認できなかった項目は「情報未公開」と明記しています。推測や近似シリーズからの類推による断定は行っていません。",
+    "en": "Each series' competition format (eligibility, points system, race weekend structure, etc.) is hand-researched static reference content, separate from the live news feed and not part of the 30-minute auto-refresh. The depth and confidence of what could be confirmed varies by series — anything not found in public sources is explicitly marked unavailable rather than guessed or inferred from a similar series.",
+    "last_updated": "2026-08-23"
+  },
+  "series": [
+    {
+      "key": "gr_cup",
+      "confidence": "media_report",
+      "sections": {
+        "eligibility": {
+          "ja": "参戦車両はシリーズが製作するToyota GR86ワンメイクカー(コントロールタイヤ: Continental)。ドライバーのライセンス区分(SRO系列シリーズのようなFIAドライバーレーティング制が適用されるか等)は公開情報で確認できませんでした。",
+          "en": "The spec car is the series-built Toyota GR86 Cup car (control tire: Continental). Driver licensing-tier requirements (e.g. whether an FIA driver-rating system applies, as in sister SRO series) could not be confirmed from public sources."
+        },
+        "points": {
+          "ja": "各着順への配点方式は公開情報で確認できませんでした(公式サイトのレギュレーションページ・Wikipedia・主要モータースポーツメディアのいずれにも具体的な記載が見当たりません)。",
+          "en": "The point-per-finishing-position scale could not be confirmed from public sources (the official site's regulations page, Wikipedia, and major motorsport media outlets were checked; none specify it)."
+        },
+        "weekend_format": {
+          "ja": "1大会(ラウンド)につき2レース(ダブルヘッダー)制。トヨタ公式発表資料では1レースの目安時間を「約45分」としています。予選セッション数・逆グリッド有無・義務ピットストップの有無は公開情報で確認できませんでした。",
+          "en": "Two races per event weekend (double-header format). Toyota's own press materials describe races as roughly 45 minutes. The number of qualifying sessions, any reverse-grid rule, and any mandatory pit stop could not be confirmed from public sources."
+        },
+        "classification": {
+          "ja": "順位表には「GR Cup AM」「GR Cup Legends」という区分があるが、AMクラスの参戦資格を定める具体的な規定(FIAレーティング基準等)は公開情報で確認できませんでした。一方「Legends Cup」は45歳以上のドライバー限定のクラスで、2025年シーズンは全7大会中5大会(Arlington・Sonoma・COTA・Road America・Barber)で通常のGR Cupフィールド内に組み込む形で実施され、別枠の表彰・賞金(全14レースそれぞれの最上位Legendに5,000ドル、シーズン王者に5,000ドルのボーナス、総額75,000ドルの賞金プール)が用意されている、とトヨタ公式が発表しています。",
+          "en": "Standings show 'GR Cup AM' and 'GR Cup Legends' classes, but the specific eligibility rule defining who qualifies for the AM class (e.g. an FIA rating threshold) could not be confirmed from public sources. The 'Legends Cup,' however, is officially documented: a class exclusively for drivers aged 45 and older, run within the regular GR Cup field at 5 of the 2025 season's 7 event weekends (Arlington, Sonoma, COTA, Road America, Barber), with its own separate awards and a $75,000 total prize pool ($5,000 to the top Legend at each of the 14 races, plus a $5,000 season bonus), per Toyota's official announcement."
+        },
+        "season_length": {
+          "ja": "2026年シーズンは7大会(いずれもダブルヘッダー、年間合計14レース)構成。",
+          "en": "The 2026 season runs across 7 event weekends (all double-headers, 14 races total)."
+        }
+      },
+      "sources": [
+        { "label": "Toyota USA Newsroom — GR Cup Legends Cup press release", "url": "https://pressroom.toyota.com/toyota-gazoo-racing-north-america-introduces-the-legends-cup-presented-by-wwex-group-to-the-2025-gr-cup-series/" },
+        { "label": "Wikipedia — 2026 Toyota GR Cup North America", "url": "https://en.wikipedia.org/wiki/2026_Toyota_GR_Cup_North_America" }
+      ]
+    },
+    {
+      "key": "tgr_86brz_cup",
+      "confidence": "media_report",
+      "sections": {
+        "eligibility": {
+          "ja": "エントリー資格は「プロフェッショナルシリーズ」と「クラブマンシリーズ」のどちらに参戦するかで異なる(詳細は下記「ドライバー区分」を参照)。車両技術規定の詳細は公開情報で確認できませんでした。",
+          "en": "Entry eligibility differs depending on which of the two series (Professional or Clubman) a driver enters — see Driver Classification below. Detailed technical/car regulations could not be confirmed from public sources."
+        },
+        "points": {
+          "ja": "上位10位入賞者に20-15-12-10-8-6-4-3-2-1点を付与し、さらにポールポジション獲得者に1点、ファステストラップ記録者に1点をそれぞれ別枠で加算(2025年シーズン)。",
+          "en": "Points are awarded 20-15-12-10-8-6-4-3-2-1 to the top 10 classified finishers, plus 1 additional point each for pole position and for fastest lap (2025 season)."
+        },
+        "weekend_format": {
+          "ja": "1大会あたりのレース数・レース時間など、レースウィークエンドの詳細な構成は公開情報で確認できませんでした。",
+          "en": "Detailed race weekend structure — number of races per round, race duration — could not be confirmed from public sources."
+        },
+        "classification": {
+          "ja": "「プロフェッショナルシリーズ」(スーパーGT等のプロドライバーが対象)と「クラブマンシリーズ」(ジェントルマンドライバー等のアマチュアドライバー限定。プロ資格を持つドライバーは参加不可)の2シリーズに分けて実施される、とトヨタ ガズー レーシング公式が発表しています。",
+          "en": "The series runs as two separate championships: a 'Professional Series' (for Super GT-caliber and other professional drivers) and a 'Clubman Series' (restricted to gentleman drivers and other amateur drivers — professionally licensed drivers may not enter), per Toyota Gazoo Racing's official announcement."
+        },
+        "season_length": {
+          "ja": "2025年シーズンは7大会構成(オートポリス・もてぎ・スポーツランドSUGO・十勝・富士・鈴鹿・岡山、4月〜11月開催)。",
+          "en": "The 2025 season ran across 7 rounds (Autopolis, Motegi, Sportsland SUGO, Tokachi, Fuji, Suzuka, Okayama), held April through November."
+        }
+      },
+      "sources": [
+        { "label": "Wikipedia — 2025 Toyota Gazoo Racing GR86/BRZ Cup", "url": "https://en.wikipedia.org/wiki/2025_Toyota_Gazoo_Racing_GR86/BRZ_Cup" }
+      ]
+    },
+    {
+      "key": "gr_cup_australia",
+      "confidence": "official",
+      "sections": {
+        "eligibility": {
+          "ja": "Motorsport Australia発行の競技ライセンス(Circuit Licence、Provisional不可。保有12か月未満の場合はNational Competition Courseの受講が必要)を保持し、満15歳以上であること(バサースト/マウントパノラマ戦のみ州法により満16歳以上)。シリーズ全体で登録ドライバー最大32名、1大会あたり最大32台エントリー、ゲストドライバーは1大会あたり最大4名まで。車両は指定Technical Managerが規定どおりに製作し、コントロールタイヤはDunlop Direzza 225/40R18。車両最低重量1230kg・ドライバー最低体重85kg(不足分はバラスト搭載)。",
+          "en": "Drivers must hold a Motorsport Australia Circuit Licence without Provisional endorsement (a National Competition Course is required if held under 12 months) and be at least 15 years old (16 for the Bathurst/Mount Panorama round, per state law). Series-wide cap of 32 registered drivers, max 32 entries per event, up to 4 Guest Drivers per event. Cars are built to spec by the appointed Technical Manager; control tire is Dunlop Direzza 225/40R18. Minimum car weight 1230kg, minimum driver weight 85kg (ballast permitted to make minimum weight)."
+        },
+        "points": {
+          "ja": "着順に応じた固定配点表を採用(1位100点・2位90点・3位82点・4位76点・5位72点・6位70点、以下段階的に減少し36位10点まで規定)。クラス分類対象として完走した場合のみ加点。ポールポジション/ファステストラップの別枠加点はなし。",
+          "en": "A fixed, non-linear points table is used: 1st=100, 2nd=90, 3rd=82, 4th=76, 5th=72, 6th=70, tapering down to 36th=10. Only classified finishers score; there is no separate pole-position or fastest-lap bonus."
+        },
+        "weekend_format": {
+          "ja": "標準構成はフリー走行20分×2回・予選15分×1回、決勝3レース(レース1: 20分・レース2: 25分・レース3: 20分)。正確なセッション数/時間は大会ごとにオーガナイザーと調整される場合がある。107%ルール(予選タイムが最速者の107%を超えると当該大会の以降のセッションに出走不可)を採用。逆グリッド・義務ピットストップの規定はなし。",
+          "en": "Standard format is 2×20-minute practice sessions, 1×15-minute qualifying session, then three races (Race 1: 20 min, Race 2: 25 min, Race 3: 20 min) — though the exact session count/length may be negotiated event-by-event with the organiser. A 107% qualifying rule applies (miss it and you're barred from the rest of that event). No reverse-grid rule or mandatory pit stop is specified."
+        },
+        "classification": {
+          "ja": "Pro/Amやジェントルマンドライバーといった区分は設けられておらず、単一クラスとして実施される。",
+          "en": "No Pro/Am or gentleman-driver class split exists — the series runs as a single open class."
+        },
+        "season_length": {
+          "ja": "Supercars選手権のサポートカテゴリーとして年間5大会構成(2024年実績: タウンズビル・シドニー・モータースポーツパーク・サンダウン・バサースト・ゴールドコースト)。2026年シーズンも継続して開催。",
+          "en": "Runs as a Supercars Championship support category across 5 rounds per season (2024: Townsville, Sydney Motorsport Park, Sandown, Bathurst, Gold Coast). Continuing into the 2026 season."
+        }
+      },
+      "sources": [
+        { "label": "Wikipedia — 2026 GR Cup", "url": "https://en.wikipedia.org/wiki/2026_GR_Cup" },
+        { "label": "Wikipedia — GR Cup", "url": "https://en.wikipedia.org/wiki/GR_Cup" }
+      ],
+      "primary_source_note": {
+        "ja": "上記の詳細な参戦資格・レースウィークエンド構成・ポイント制度は、Motorsport Australia公式「TOYOTA GAZOO Racing Australia GR Cup Sporting and Technical Regulations」(2024年版)を情報源としています。本サイトの作成時点で当該PDFへの安定した直接リンクを再確認できなかったため、上記リンクは検証済みのWikipediaページのみを掲載しています。",
+        "en": "The detailed eligibility, weekend-format, and points-system figures above are sourced from Motorsport Australia's official 'TOYOTA GAZOO Racing Australia GR Cup Sporting and Technical Regulations' document (2024 version). A stable direct link to that PDF could not be re-confirmed as working at the time this site was built, so only the verified Wikipedia pages are linked above."
+      }
+    }
+  ]
+}
