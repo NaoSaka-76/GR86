@@ -11,6 +11,12 @@ region」参照)。GR86が実際に参戦を確認できたのは以下:
     一方、順位表(`/jp/86brz/ranking/{year}/`)はPDFへのリンクのみでHTML表が存在しないため、
     SKILL.mdが警告する文字化けリスクを避けスクレイピング対象外(ニュース集約+検索リンクの
     まま)。
+  - 日本・アジア(追加): スーパー耐久 ST-4クラス — 複数メーカーの市販車ベース車両が混走する
+    クラスで、GR86(7チーム)・ロードスター(現行ND型RF、1チーム)が2026年8月時点で実際に
+    参戦していることを確認した(BRZの参戦は確認できず)。姉妹プロジェクト"Supra GT4 Watch"の
+    `st_supra_teams.py`と同じ技術基盤(supertaikyu.com)で、ST-4クラスの全10チームを一覧
+    表示し、該当車種のみハイライトする(`super_taikyu_st4.py`)。日程・チームランキング・
+    参戦ドライバーはいずれも公式サイトの実データ。
   - オーストラリア: GR Cup Australia(旧Toyota 86 Racing Series。2024年からGR86に更新)。
     公式サイト(toyota.com.au/gazoo-racing/gr-cup)がHTTP 403を返しスクレイピング不可。
     サードパーティのsupercars.comにセッション単位の実結果ページはあるが、シーズン通算の
@@ -49,6 +55,7 @@ from .schedule import (
 )
 from .schedule import fetch_all as fetch_all_schedules
 from .standings import fetch_gr_cup_driver_standings, fetch_gr_cup_team_standings
+from .super_taikyu_st4 import fetch as fetch_super_taikyu_st4
 
 
 def _search_link(query: str) -> str:
@@ -107,6 +114,27 @@ REGIONS = {
                 "schedule_link": JP_86BRZ_CUP_URL,
                 "has_real_schedule": True,
                 "has_real_standings": False,
+            },
+            {
+                "key": "super_taikyu_st4",
+                "label": "スーパー耐久 ST-4クラス(多メーカー混走・日本)",
+                "vehicle": None,
+                "queries": {
+                    "topics": [
+                        ("スーパー耐久 ST-4クラス GR86 OR BRZ OR ロードスター", "ja", "JP", "JP:ja"),
+                        ("スーパー耐久 ST4 GR86", "ja", "JP", "JP:ja"),
+                    ],
+                    "results": [
+                        ("スーパー耐久 ST-4クラス 決勝 OR レース結果 OR 優勝", "ja", "JP", "JP:ja"),
+                    ],
+                    "standings": [
+                        ("スーパー耐久 ST-4クラス シリーズランキング OR ポイントランキング", "ja", "JP", "JP:ja"),
+                    ],
+                },
+                "standings_search": "スーパー耐久 ST-4クラス 2026 シリーズランキング",
+                "schedule_link": "https://supertaikyu.com/race/index.html",
+                "has_real_schedule": True,
+                "has_real_standings": True,
             }
         ],
     },
@@ -223,6 +251,7 @@ def fetch() -> dict:
                     "schedule": [],
                     "standings_chart": None,
                     "standings_chart_note": None,
+                    "roster": None,
                 }
             )
         result[region_key] = {"label": region["label"], "flag": region["flag"], "series": series_out}
@@ -252,6 +281,19 @@ def fetch() -> dict:
         "既知の問題)を避けるため、順位のスクレイピングは行っていません。正式な順位は"
         "「公式ランキングを検索」または公式サイトのPDFでご確認ください。"
     )
+
+    # スーパー耐久 ST-4クラスは、公式サイトの実データでスケジュール・全参戦チーム・
+    # ドライバー・ランキングを埋める(GR86/ロードスターのみハイライト、BRZは今季参戦なし)。
+    st4 = result["japan_asia"]["series"][1]
+    st4["schedule"] = schedules["super_taikyu"]
+    st4_data = fetch_super_taikyu_st4()
+    st4["roster"] = st4_data["teams"]
+    st4["rounds_completed"] = st4_data["rounds_completed"]
+    st4["rounds_total"] = st4_data["rounds_total"]
+    st4["standings_chart"] = [
+        {"position": t["position"], "name": t["team"], "points": t["points"]} for t in st4_data["teams"]
+    ]
+    st4["standings_chart_note"] = st4_data["error"] or st4_data["note"]
 
     # 豪州/MX-5 Cupはスクレイピングせずリンクアウトのみである理由を明示する。
     result["australia"]["series"][0]["schedule_chart_note"] = (

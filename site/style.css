@@ -495,6 +495,61 @@ details[open] > .collapsible__summary::before { transform: rotate(90deg); }
 }
 .series-card__link:hover { background: var(--accent-soft); }
 
+/* ---- Full-class entrant roster (e.g. Super Taikyu ST-4) ----
+   Lists every team in a multi-manufacturer class, highlighting only the entries that
+   match a tracked vehicle (GR86/BRZ/ロードスター) — same "highlight one within the full
+   field" technique as the sibling GT4 catalog project. */
+
+.st4-roster-note { margin: 0 14px 8px; padding: 8px 10px; border-radius: 6px; }
+
+.st4-roster-grid {
+  padding: 0 14px 14px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 10px;
+}
+
+.st4-team-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.st4-team-card--highlight { border-color: currentColor; box-shadow: 0 0 0 1px currentColor inset; }
+.st4-team-card--gr86 { color: var(--veh-gr86); background: var(--veh-gr86-soft); }
+.st4-team-card--brz { color: var(--veh-brz); background: var(--veh-brz-soft); }
+.st4-team-card--mx5 { color: var(--veh-mx5); background: var(--veh-mx5-soft); }
+
+.st4-team-card__top { display: flex; align-items: flex-start; gap: 8px; }
+.st4-team-card__pos {
+  font-family: var(--font-display); font-weight: 800; font-size: 0.78rem;
+  color: var(--ink-muted); flex-shrink: 0;
+}
+.st4-team-card--highlight .st4-team-card__pos { color: inherit; }
+.st4-team-card__name-wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; flex: 1; min-width: 0; }
+.st4-team-card__name { font-weight: 700; font-size: 0.86rem; color: var(--ink); }
+.st4-team-card--highlight .st4-team-card__name { color: inherit; }
+.st4-team-card__car { font-size: 0.74rem; color: var(--ink-muted); }
+.st4-team-card--highlight .st4-team-card__car { color: inherit; opacity: 0.85; }
+.st4-team-card__points {
+  font-family: var(--font-display); font-weight: 700; font-size: 0.76rem;
+  color: var(--accent); font-variant-numeric: tabular-nums;
+}
+.st4-team-card--highlight .st4-team-card__points { color: inherit; }
+.st4-team-card__drivers { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 2px; }
+
+.roster-chip {
+  font-size: 0.68rem;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--surface-sunken);
+  border: 1px solid var(--line);
+  color: var(--ink-muted);
+}
+.st4-team-card--highlight .roster-chip { background: rgba(255,255,255,0.12); border-color: currentColor; color: inherit; }
 
 /* ---- Motorsports format explainer panel ---- */
 

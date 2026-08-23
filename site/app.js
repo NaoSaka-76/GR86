@@ -40,6 +40,12 @@
       topicsHeading: "トピックス",
       resultsHeading: "最新レース結果",
       standingsNewsHeading: "ランキング関連ニュース",
+      rosterHeading: "参戦チーム一覧",
+      rosterRoundsNote: function (done, total) {
+        return "開幕(第1戦)から第" + done + "戦(全" + total + "戦)まで開催済みのエントリーリストを集計した参戦ドライバーです。";
+      },
+      rosterPointsUnit: "pt",
+      rosterNoData: "順位データなし",
       standingsSearchLink: "公式ランキングを検索 ↗",
       scheduleLinkText: "公式スケジュールを見る ↗",
       unitCount: "件",
@@ -91,6 +97,7 @@
       series: {
         gr_cup: "Toyota GR Cup(GR86 Cup Edition ワンメイクレース)",
         tgr_86brz_cup: "TGR GR86/BRZ Cup(スーパーGT併催・日本)",
+        super_taikyu_st4: "スーパー耐久 ST-4クラス(多メーカー混走・日本)",
         gr_cup_australia: "GR Cup Australia(旧Toyota 86 Racing Series)",
         tmg_gt86_cup_vln: "TMG GT86 Cup(独ニュルブルクリンク VLN/NLS内クラス・現行開催は未確認)",
         mx5_cup: "Mazda MX-5 Cup(IMSA主催・北米)",
@@ -133,6 +140,12 @@
       topicsHeading: "Topics",
       resultsHeading: "Latest results",
       standingsNewsHeading: "Standings news",
+      rosterHeading: "Full Entry List",
+      rosterRoundsNote: function (done, total) {
+        return "Drivers aggregated from entry lists spanning round 1 through round " + done + " of " + total + " completed so far this season.";
+      },
+      rosterPointsUnit: "pt",
+      rosterNoData: "No standings data",
       standingsSearchLink: "Search official standings ↗",
       scheduleLinkText: "View official schedule ↗",
       unitCount: "",
@@ -185,6 +198,7 @@
         gr_cup: "Toyota GR Cup (GR86 Cup Edition one-make series)",
         tmg_gt86_cup_vln: "TMG GT86 Cup (class within Germany's Nürburgring VLN/NLS series — current status unconfirmed)",
         tgr_86brz_cup: "TGR GR86/BRZ Cup (Super GT support race, Japan)",
+        super_taikyu_st4: "Super Taikyu ST-4 Class (multi-manufacturer, Japan)",
         gr_cup_australia: "GR Cup Australia (formerly Toyota 86 Racing Series)",
         mx5_cup: "Mazda MX-5 Cup (IMSA-sanctioned, North America)",
       },
@@ -714,6 +728,67 @@
     return wrap;
   }
 
+  /** Full entrant list for a multi-manufacturer class (currently: Super Taikyu ST-4).
+   * Unlike the old single-vehicle GR Cup roster (removed), this lists EVERY team in the
+   * class regardless of manufacturer, highlighting only the entries that match one of
+   * this dashboard's tracked vehicles (GR86/BRZ/ロードスター) — same technique the
+   * sibling "Supra GT4 Watch" project uses to highlight one car within a full catalog.
+   * Rendered directly (not collapsed) since it's the primary content of this card;
+   * schedule/ranking/topics below it use the collapsed-by-default pattern instead. */
+  function buildRosterBlock(s) {
+    var wrap = el("div", "series-card__group");
+    var titleText = t().rosterHeading;
+    if (s.rounds_completed !== undefined && s.rounds_total !== undefined) {
+      titleText += " (" + s.rounds_completed + "/" + s.rounds_total + ")";
+    }
+    wrap.appendChild(el("div", "series-card__group-title", titleText));
+
+    var roster = s.roster || [];
+    if (roster.length === 0) {
+      wrap.appendChild(el("p", "panel__empty", t().panelEmpty));
+      return wrap;
+    }
+    if (s.rounds_completed !== undefined && s.rounds_total !== undefined) {
+      wrap.appendChild(el("p", "panel__note st4-roster-note", t().rosterRoundsNote(s.rounds_completed, s.rounds_total)));
+    }
+
+    var grid = el("div", "st4-roster-grid");
+    roster.forEach(function (team) {
+      var highlighted = team.vehicle && VEHICLE_KEYS.indexOf(team.vehicle) !== -1;
+      var card = el("div", "st4-team-card" + (highlighted ? " st4-team-card--highlight st4-team-card--" + team.vehicle : ""));
+
+      var top = el("div", "st4-team-card__top");
+      top.appendChild(el("span", "st4-team-card__pos", "#" + team.position));
+      var nameWrap = el("div", "st4-team-card__name-wrap");
+      nameWrap.appendChild(el("span", "st4-team-card__name", team.team));
+      var badge = highlighted ? vehicleBadge(team.vehicle) : null;
+      if (badge) nameWrap.appendChild(badge);
+      top.appendChild(nameWrap);
+      card.appendChild(top);
+
+      card.appendChild(el("div", "st4-team-card__car", team.car + " · #" + team.car_no));
+
+      if (team.points !== null && team.points !== undefined) {
+        card.appendChild(el("div", "st4-team-card__points", team.points + t().rosterPointsUnit));
+      } else {
+        card.appendChild(el("div", "st4-team-card__points", t().rosterNoData));
+      }
+
+      var drivers = team.drivers || [];
+      if (drivers.length > 0) {
+        var driverWrap = el("div", "st4-team-card__drivers");
+        drivers.forEach(function (d) {
+          driverWrap.appendChild(el("span", "roster-chip", d.name));
+        });
+        card.appendChild(driverWrap);
+      }
+
+      grid.appendChild(card);
+    });
+    wrap.appendChild(grid);
+    return wrap;
+  }
+
   function buildSeriesCard(s) {
     var card = el("div", "series-card series-card--" + s.key);
     var header = el("div", "series-card__header");
@@ -722,6 +797,9 @@
       header.appendChild(el("span", "series-card__header-vehicle", t().vehicleFilter[s.vehicle]));
     }
     card.appendChild(header);
+    if (s.roster !== null && s.roster !== undefined) {
+      card.appendChild(buildRosterBlock(s));
+    }
     card.appendChild(buildScheduleBlock(s));
     card.appendChild(buildRankingBlock(s));
     card.appendChild(buildSubGroup(t().topicsHeading, s.topics));

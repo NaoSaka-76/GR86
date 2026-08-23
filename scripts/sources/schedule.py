@@ -20,6 +20,10 @@ PDFへのリンクのみでHTML表が存在しない(`https://toyotagazooracing.
 シーズン通算のポイントランキング表はどこにも見当たらず、セッションコードもイベントごとに
 個別調査が必要で安定した命名規則が確認できなかった。誤ったURL推測によるデータ欠落リスクが
 高いため、今回はスクレイピングを見送り公式ページ/検索リンクのみを提供する。
+
+スーパー耐久(日本、ST-4クラス。GR86/BRZ/ロードスターが混走する多メーカークラス)は、
+姉妹プロジェクト"Supra GT4 Watch"で確認済みの公式レース一覧ページ(supertaikyu.com)から
+年間日程を取得する(全クラス共通の日程のため、ST-4クラスにもそのまま適用される)。
 """
 
 from __future__ import annotations
@@ -42,6 +46,8 @@ JP_86BRZ_CUP_RANKING_URL_TMPL = JP_86BRZ_CUP_BASE_URL + "/jp/86brz/ranking/{year
 
 GR_CUP_AUSTRALIA_URL = "https://www.toyota.com.au/gazoo-racing/gr-cup/races"
 MX5_CUP_SCHEDULE_URL = "https://www.mx-5cup.com/schedule"
+
+SUPER_TAIKYU_INDEX_URL = "https://supertaikyu.com/race/index.html"
 
 _MONTH_NUM = {
     "JAN": 1, "FEB": 2, "MAR": 3, "APR": 4, "MAY": 5, "JUN": 6,
@@ -207,6 +213,57 @@ def fetch_tgr_86brz_cup_schedule(year: int | None = None) -> list[dict]:
     return events
 
 
+def fetch_super_taikyu_schedule() -> list[dict]:
+    """スーパー耐久公式レース一覧(テストデー含む全ラウンド)を取得する。
+
+    全クラス共通の開催日程であり、ST-4クラスにもそのまま適用される(ただし全ラウンドで
+    ST-4クラスが実際に開催されるとは限らない — super_taikyu_st4.py 参照)。
+    """
+    session = _session()
+    events: list[dict] = []
+    try:
+        resp = session.get(SUPER_TAIKYU_INDEX_URL, timeout=REQUEST_TIMEOUT)
+        resp.raise_for_status()
+        # サーバーがcharsetを明示しないため、requestsの既定(ISO-8859-1)ではなく
+        # 実際の文字コード推定を使う(このサイトは実質UTF-8)。
+        resp.encoding = resp.apparent_encoding or "utf-8"
+        html_text = resp.text
+
+        blocks = re.findall(
+            r'<div class="Race_BX_Wrapp">.*?(?=<div class="Race_BX_Wrapp">|\Z)', html_text, re.S
+        )
+        for block in blocks:
+            rd_m = re.search(r'Race_BX_Rd">([^<]*)<', block)
+            date_m = re.search(r'Race_BX_Date">\s*([^<]*)<', block)
+            circuit_m = re.search(r'Race_BX_Circuit">([^<]*)<', block)
+            name_m = re.search(r'Race_BX_Name">(.*?)</div>', block, re.S)
+            if not (rd_m and date_m):
+                continue
+            date_text = date_m.group(1).strip()
+            dm = re.match(r"(\d{4})/(\d{1,2})/(\d{1,2})(?:-(\d{1,2}))?", date_text)
+            if not dm:
+                continue
+            year, month, day, _end_day = dm.groups()
+            sort_key = int(year) * 10000 + int(month) * 100 + int(day)
+            name_txt = re.sub(r"<!--.*?-->", "", name_m.group(1)) if name_m else ""
+            name_txt = re.sub(r"<[^>]+>", "", name_txt).strip()
+            events.append(
+                {
+                    "round": rd_m.group(1).strip(),
+                    "track": (circuit_m.group(1).strip() if circuit_m else ""),
+                    "name": name_txt,
+                    "date_range": date_text.replace("/", "."),
+                    "status": "upcoming",
+                    "sort_key": sort_key,
+                }
+            )
+    except Exception:  # noqa: BLE001
+        return []
+
+    events.sort(key=lambda e: e["sort_key"])
+    return events
+
+
 def _finalize(events: list[dict]) -> list[dict]:
     for e in events:
         e["status"] = _status(e["sort_key"])
@@ -220,4 +277,5 @@ def fetch_all() -> dict:
         "tgr_86brz_cup": _finalize(fetch_tgr_86brz_cup_schedule()),
         "gr_cup_australia": {"link": GR_CUP_AUSTRALIA_URL},
         "mx5_cup": {"link": MX5_CUP_SCHEDULE_URL},
+        "super_taikyu": _finalize(fetch_super_taikyu_schedule()),
     }
