@@ -5,25 +5,35 @@ region」参照)。GR86が実際に参戦を確認できたのは以下:
 
   - 北米: Toyota GR Cup(grcupseries.com) — GR86 Cup Editionのワンメイクレース。
     公式サイトがTC Americaと同一CMS基盤のため、スケジュール/ランキングとも実データを
-    scheduke.py/standings.py/participant_roster.py で取得している(2026年8月に実HTML確認済み)。
-  - 日本・アジア: TGR GR86/BRZ Cup(スーパーGT併催、2026年は全7戦)。
-    toyotagazooracing.com/jp/86brz/about/ に概要はあるが、静的HTMLのスケジュール表/順位表
-    ページは確認できなかった(2026年8月時点)ため、ニュース記事集約 + 公式ページへの
-    リンクのみ。
+    schedule.py/standings.py で取得している(2026年8月に実HTML確認済み)。
+  - 日本・アジア: TGR GR86/BRZ Cup(スーパーGT併催、2026年は全7戦)。2026年8月の再調査で
+    スケジュールの静的HTMLページ(`/jp/86brz/calendar/{year}/`)が見つかり、実データ化した。
+    一方、順位表(`/jp/86brz/ranking/{year}/`)はPDFへのリンクのみでHTML表が存在しないため、
+    SKILL.mdが警告する文字化けリスクを避けスクレイピング対象外(ニュース集約+検索リンクの
+    まま)。
   - オーストラリア: GR Cup Australia(旧Toyota 86 Racing Series。2024年からGR86に更新)。
-    公式サイト(toyota.com.au/gazoo-racing/gr-cup)がHTTP 403を返しスクレイピング不可のため、
-    ニュース記事集約 + 検索リンクのみ。
-  - 欧州: 2026年8月時点でGR86の現行ワンメイク/プロダクションクラス選手権は確認できず、
-    セクション自体を設けていない(SKILL.mdの「参戦していないシリーズのセクションは
-    作らない」の教訓どおり)。
+    公式サイト(toyota.com.au/gazoo-racing/gr-cup)がHTTP 403を返しスクレイピング不可。
+    サードパーティのsupercars.comにセッション単位の実結果ページはあるが、シーズン通算の
+    ポイントランキングはどこにも見当たらず、セッションコードの命名規則も安定しないため、
+    誤ったURL推測のリスクを避けスクレイピングは見送り(ニュース集約+検索リンクのみ)。
+  - 欧州: 2026年8月に前回より広く再調査(GR86 Cup/Trophy Europe、BRZ Cup Europe、独ADAC/
+    英750MC・BRSCC等のクラブレース、ニュルブルクリンクVLN/NLSの各クラス、マレーシア含む
+    アジア圏の類似名称シリーズとの区別、などを個別に検索)した結果、GR86/BRZの現行ワンメイク
+    選手権や、既存クラブレース内の専用クラスは見つからなかった。ただし旧型GT86時代には
+    ドイツ・ニュルブルクリンクのVLN(現NLS)耐久シリーズ内に「TMG GT86 Cup」という専用クラス
+    が実在した(トヨタ欧州公式発表で2013年開幕・2019年時点でも継続を確認)。現行(2024〜2026年)
+    NLSの公式クラス一覧にGT86/BRZ名称は見当たらず、現在もブランド化された独立クラスとして
+    継続しているかは確認できなかったため、「現状不明の可能性がある過去実績」として参考掲載
+    している(SKILL.mdの「除外の結論は再調査で覆りうる」を踏まえ、前回の簡易調査より広く
+    探した結果)。
 
 加えて、ユーザー要望により追跡対象のロードスター(MX-5)が参戦する Mazda MX-5 Cup
 (IMSA主催)も1枠設けている。ただしmx-5cup.comはGR CupやTC Americaと異なるCMSで
 静的HTMLの型が確認できなかった(構造化データではなくJS描画寄り)ため、スケジュール/
-順位表は実データ化せず、ニュース記事集約 + 公式サイトへのリンクのみとしている
-(GR86のロースター/参戦チーム名簿はGR Cupのみ構築 — 参戦車種が異なるMX-5 Cupまで
-同水準の名簿調査を行うとスコープが膨らみすぎるため、SKILL.mdの「ロースターは
-実際に要望された場合のみ」の原則に従いリンクアウトに留めている)。
+順位表は実データ化せず、ニュース記事集約 + 公式サイトへのリンクのみとしている。
+
+(2026年8月: 参戦チーム名簿セクション(旧participant_roster.py)は削除。スケジュール/
+ランキングの実データ表示は引き続きGR Cup北米のみschedule.py/standings.pyで取得している。)
 """
 
 from __future__ import annotations
@@ -70,7 +80,6 @@ REGIONS = {
                 "schedule_link": GR_CUP_CALENDAR_URL,
                 "has_real_schedule": True,
                 "has_real_standings": True,
-                "has_roster": True,
             }
         ],
     },
@@ -96,9 +105,8 @@ REGIONS = {
                 },
                 "standings_search": "TGR GR86 BRZ Cup 2026 シリーズランキング",
                 "schedule_link": JP_86BRZ_CUP_URL,
-                "has_real_schedule": False,
+                "has_real_schedule": True,
                 "has_real_standings": False,
-                "has_roster": False,
             }
         ],
     },
@@ -126,7 +134,33 @@ REGIONS = {
                 "schedule_link": GR_CUP_AUSTRALIA_URL,
                 "has_real_schedule": False,
                 "has_real_standings": False,
-                "has_roster": False,
+            }
+        ],
+    },
+    "europe": {
+        "label": "欧州",
+        "flag": "🇪🇺",
+        "series": [
+            {
+                "key": "tmg_gt86_cup_vln",
+                "label": "TMG GT86 Cup(独ニュルブルクリンク VLN/NLS内クラス・現行開催は未確認)",
+                "vehicle": "toyota86",
+                "queries": {
+                    "topics": [
+                        ('"GT86 Cup" VLN OR NLS OR Nürburgring', "en-GB", "GB", "GB:en"),
+                        ('"GT86 Cup" Nürburgring', "de", "DE", "DE:de"),
+                    ],
+                    "results": [
+                        ('"GT86 Cup" Nürburgring race result OR podium OR win', "en-GB", "GB", "GB:en"),
+                    ],
+                    "standings": [
+                        ('"GT86 Cup" VLN OR NLS standings OR Meisterschaft', "de", "DE", "DE:de"),
+                    ],
+                },
+                "standings_search": "TMG GT86 Cup VLN NLS Nürburgring 2026 status",
+                "schedule_link": "https://www.nuerburgring-langstrecken-serie.de/",
+                "has_real_schedule": False,
+                "has_real_standings": False,
             }
         ],
     },
@@ -153,7 +187,6 @@ REGIONS = {
                 "schedule_link": MX5_CUP_SCHEDULE_URL,
                 "has_real_schedule": False,
                 "has_real_standings": False,
-                "has_roster": False,
             }
         ],
     },
@@ -190,12 +223,11 @@ def fetch() -> dict:
                     "schedule": [],
                     "standings_chart": None,
                     "standings_chart_note": None,
-                    "roster": None,
                 }
             )
         result[region_key] = {"label": region["label"], "flag": region["flag"], "series": series_out}
 
-    # GR Cup(北米)のみ、公式サイトの実データでスケジュール/ランキング/名簿を埋める。
+    # GR Cup(北米)は、公式サイトの実データでスケジュール/ランキングを埋める。
     gr_cup = result["north_america"]["series"][0]
     schedules = fetch_all_schedules()
     gr_cup["schedule"] = schedules["gr_cup"]
@@ -210,14 +242,29 @@ def fetch() -> dict:
         "ドライバーズランキングも別枠で表示しています。"
     )
 
-    # 日本/豪州/MX-5 Cupはスクレイピングせずリンクアウトのみである理由を明示する。
-    result["japan_asia"]["series"][0]["schedule_chart_note"] = (
-        "公式ページに静的HTMLのスケジュール表/順位表が見当たらなかったため、"
-        "ニュース記事の集約と公式ページへのリンクのみとしています。"
+    # 日本(TGR GR86/BRZ Cup)は、公式カレンダーページの実データでスケジュールのみ埋める
+    # (順位表はPDFのみのため引き続きリンクアウト)。
+    jp = result["japan_asia"]["series"][0]
+    jp["schedule"] = schedules["tgr_86brz_cup"]
+    jp["standings_chart_note"] = (
+        "公式サイトの順位表(ランキング)ページはPDFファイルへのリンクのみで、HTML形式の"
+        "順位表が存在しません。ドライバー氏名の文字化けリスク(SKILL.md記載のPDF抽出時の"
+        "既知の問題)を避けるため、順位のスクレイピングは行っていません。正式な順位は"
+        "「公式ランキングを検索」または公式サイトのPDFでご確認ください。"
     )
+
+    # 豪州/MX-5 Cupはスクレイピングせずリンクアウトのみである理由を明示する。
     result["australia"]["series"][0]["schedule_chart_note"] = (
         "公式サイトがボット対策等でスクレイピングできなかった(HTTP 403)ため、"
         "ニュース記事の集約と検索リンクのみとしています。"
+    )
+    result["europe"]["series"][0]["schedule_chart_note"] = (
+        "2026年8月の再調査で、旧型GT86時代にドイツ・ニュルブルクリンクのVLN(現NLS)耐久"
+        "シリーズ内に「TMG GT86 Cup」という専用クラスが実在したことを確認(2013年開幕、"
+        "2019年時点でも継続をトヨタ欧州公式発表で確認)。ただし現行(2024〜2026年)NLSの"
+        "公式クラス一覧にGT86/BRZ名称は見当たらず、現在もブランド化された独立クラスとして"
+        "継続しているかは確認できませんでした。GR86/BRZの現行ワンメイク選手権・専用クラスは"
+        "欧州で見つかっていません(詳細は下記「各シリーズの競技フォーマット解説」参照)。"
     )
     result["mx5_cup"]["series"][0]["schedule_chart_note"] = (
         "mx-5cup.comはGR Cup/TC Americaと異なる基盤で運用されており静的HTMLでの安定した"

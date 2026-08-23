@@ -448,6 +448,47 @@ a { color: inherit; }
 .series-card__group-title { font-family: var(--font-display); font-weight: 700; font-size: 0.7rem; letter-spacing: 0.08em; color: var(--ink-muted); padding: 9px 14px 4px; text-transform: uppercase; }
 .series-card__group .panel__list { padding: 2px 6px 6px; max-height: 220px; }
 
+/* ---- Collapsible real-data blocks (schedule / standings), collapsed by default ---- */
+
+.collapsible__summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px 4px;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  user-select: none;
+}
+.collapsible__summary::-webkit-details-marker { display: none; }
+.collapsible__summary::before {
+  content: "▸";
+  display: inline-block;
+  font-size: 0.85em;
+  color: var(--accent);
+  transition: transform 0.15s ease;
+}
+details[open] > .collapsible__summary::before { transform: rotate(90deg); }
+.collapsible__summary:hover { color: var(--ink); }
+.collapsible__count {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.68rem;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 0 6px;
+  border-radius: 999px;
+  margin-left: auto;
+  text-transform: none;
+  letter-spacing: normal;
+}
+.collapsible__content { padding-top: 2px; }
+
 .series-card__link {
   margin: 4px 14px 14px; display: inline-flex; align-items: center; gap: 6px;
   font-family: var(--font-display); font-weight: 700; font-size: 0.76rem; letter-spacing: 0.02em;
@@ -455,25 +496,17 @@ a { color: inherit; }
 }
 .series-card__link:hover { background: var(--accent-soft); }
 
-/* ---- GR Cup roster panel ---- */
-
-.roster-grid { padding: 16px 20px 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
-.roster-card { border: 1px solid var(--line); border-radius: 10px; padding: 14px; background: var(--surface-raised); display: flex; flex-direction: column; gap: 8px; }
-.roster-card__top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
-.roster-card__name { font-weight: 700; font-size: 0.98rem; color: var(--ink); }
-.roster-card__pos { font-family: var(--font-display); font-weight: 800; font-size: 1.2rem; color: var(--accent); flex-shrink: 0; }
-.roster-card__points { font-family: var(--font-display); font-size: 0.74rem; color: var(--ink-muted); }
-.roster-card__desc { font-size: 0.8rem; line-height: 1.55; color: var(--ink-muted); }
-.roster-card__drivers { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
-.roster-chip { font-size: 0.72rem; padding: 2px 8px; border-radius: 999px; background: var(--surface-sunken); border: 1px solid var(--line); color: var(--ink-muted); }
-.roster-card__badge { font-family: var(--font-display); font-size: 0.62rem; font-weight: 800; letter-spacing: 0.04em; padding: 1px 6px; border-radius: 4px; background: var(--warn); color: #241a00; align-self: flex-start; }
-.roster-card__link { font-size: 0.76rem; color: var(--accent); text-decoration: none; }
-.roster-card__link:hover { text-decoration: underline; }
 
 /* ---- Motorsports format explainer panel ---- */
 
 .formats-grid { padding: 16px 20px 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
 .format-card { border: 1px solid var(--line); border-radius: 10px; padding: 14px; background: var(--surface-raised); display: flex; flex-direction: column; gap: 10px; }
+.format-card__region { display: flex; align-items: center; gap: 8px; }
+.format-card__region-flag { font-size: 1.4rem; line-height: 1; }
+.format-card__region-name {
+  font-family: var(--font-display); font-weight: 800; font-size: 0.78rem; letter-spacing: 0.05em;
+  text-transform: uppercase; color: var(--accent);
+}
 .format-card__title { font-weight: 700; font-size: 0.95rem; color: var(--ink); }
 .format-card__confidence {
   align-self: flex-start;
@@ -491,17 +524,56 @@ a { color: inherit; }
 .format-card__sources a { color: var(--accent); text-decoration: none; }
 .format-card__sources a:hover { text-decoration: underline; }
 
-/* ---- Rivals panel ---- */
+/* ---- Rivals panel: price-range bars + per-market grade tables ---- */
 
-.rivals-grid { padding: 16px 20px 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
-.rival-card { border: 1px solid var(--line); border-radius: 10px; padding: 14px; background: var(--surface-raised); display: flex; flex-direction: column; gap: 6px; }
-.rival-card__make { font-family: var(--font-display); font-size: 0.7rem; letter-spacing: 0.06em; color: var(--ink-muted); text-transform: uppercase; }
-.rival-card__model { font-weight: 700; font-size: 1rem; color: var(--ink); margin-bottom: 4px; }
-.rival-card__specs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; font-size: 0.78rem; margin-top: 6px; }
-.rival-card__spec-label { color: var(--ink-muted); }
-.rival-card__spec-value { color: var(--ink); font-weight: 600; text-align: right; }
-.rival-card__why { font-size: 0.78rem; line-height: 1.5; color: var(--ink-muted); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); }
-.rival-card__unconfirmed { font-size: 0.66rem; color: var(--warn); }
+.price-bars-group {
+  padding: 4px 20px 8px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+.price-bars { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; background: var(--surface-raised); }
+.price-bars__title { font-family: var(--font-display); font-weight: 700; font-size: 0.8rem; color: var(--ink); margin-bottom: 10px; }
+.price-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.price-bar-row:last-child { margin-bottom: 0; }
+.price-bar-row__label { width: 92px; flex-shrink: 0; text-align: center; }
+.price-bar-row__track { flex: 1; position: relative; height: 10px; border-radius: 999px; background: var(--surface-sunken); overflow: hidden; }
+.price-bar-row__fill { position: absolute; top: 0; bottom: 0; border-radius: 999px; }
+.price-bar-row__fill--gr86 { background: var(--veh-gr86); }
+.price-bar-row__fill--brz { background: var(--veh-brz); }
+.price-bar-row__fill--mx5 { background: var(--veh-mx5); }
+.price-bar-row__value {
+  flex-shrink: 0;
+  width: 150px;
+  text-align: right;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-muted);
+}
+
+.rivals-grid { padding: 8px 20px 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px; }
+.rivals-market { display: flex; flex-direction: column; gap: 12px; }
+.rivals-market__title {
+  font-family: var(--font-display); font-weight: 800; font-size: 0.95rem; letter-spacing: 0.02em;
+  color: var(--ink); border-bottom: 2px solid var(--accent); padding-bottom: 6px;
+}
+
+.grade-table { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; background: var(--surface-raised); display: flex; flex-direction: column; gap: 8px; }
+.grade-table__header { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.grade-table__confidence { font-size: 0.66rem; color: var(--ink-muted); }
+.grade-table__confidence--media { color: var(--warn); }
+.grade-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.grade-list__item { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font-size: 0.82rem; padding: 3px 0; border-bottom: 1px dashed var(--line); }
+.grade-list__item:last-of-type { border-bottom: none; }
+.grade-list__item--unconfirmed .grade-list__price { color: var(--warn); }
+.grade-list__name { color: var(--ink); }
+.grade-list__price { font-family: var(--font-display); font-weight: 700; font-variant-numeric: tabular-nums; color: var(--ink); white-space: nowrap; }
+.grade-list__note { font-size: 0.68rem; color: var(--warn); line-height: 1.4; padding: 0 0 4px; list-style: none; }
+.grade-table__basis-note { margin: 0; padding: 8px 10px; }
+.grade-table__source { font-size: 0.7rem; color: var(--accent); text-decoration: none; align-self: flex-start; }
+.grade-table__source:hover { text-decoration: underline; }
 
 /* ---- Footer ---- */
 

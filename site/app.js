@@ -53,25 +53,10 @@
       statSentimentUnit: "件ポジティブ",
       statYoutube: "YouTube動画(グローバル+日本語)",
       statMotorsports: "モータースポーツ関連話題",
-      rosterRoundsNote: function (done, total) {
-        return "今シーズン第" + done + "戦(全" + total + "戦)まで開催済みのエントリーリストを集計。";
-      },
-      rosterPositionUnit: "位",
-      rosterPointsUnit: "pt",
-      rosterNoData: "順位データなし",
-      rosterOfficialLink: "公式チームページ ↗",
-      rosterUnverified: "一次資料未裏取り",
       rivalsUnconfirmed: "reference-only",
-      rivalsSpecs: {
-        price: "価格(参考)",
-        engine: "エンジン",
-        power: "馬力",
-        torque: "トルク",
-        zeroToSixty: "0-60mph",
-        drivetrain: "駆動方式",
-        transmission: "トランスミッション",
-        weight: "車重",
-      },
+      rivalsConfirmed: { official: "公式サイトで確認", media: "報道ベース(公式未直接確認)" },
+      rivalsSourceLabel: "情報源: ",
+      rivalsPriceBarTitle: "価格帯比較",
       formatsConfidence: {
         official: "一次資料で確認",
         media_report: "報道ベース(未一次確認)",
@@ -95,25 +80,26 @@
         events: "世界各地のイベント情報",
         motorsports: "モータースポーツ(GR Cup ほか)",
         motorsports_formats: "各シリーズの競技フォーマット解説",
-        gr_cup_roster: "Toyota GR Cup 参戦チーム名簿(北米)",
-        rivals: "ライバル車 スペック比較",
+        rivals: "ライバル車 スペック比較(グレード別・日本/豪州)",
       },
       regions: {
         north_america: "北米",
         japan_asia: "日本・アジア",
         australia: "オーストラリア",
+        europe: "欧州",
         mx5_cup: "ロードスター(MX-5)ワンメイク",
       },
       series: {
         gr_cup: "Toyota GR Cup(GR86 Cup Edition ワンメイクレース)",
         tgr_86brz_cup: "TGR GR86/BRZ Cup(スーパーGT併催・日本)",
         gr_cup_australia: "GR Cup Australia(旧Toyota 86 Racing Series)",
+        tmg_gt86_cup_vln: "TMG GT86 Cup(独ニュルブルクリンク VLN/NLS内クラス・現行開催は未確認)",
         mx5_cup: "Mazda MX-5 Cup(IMSA主催・北米)",
       },
       footer:
         "本ダッシュボードは公開情報源(Googleニュース検索・YouTube検索結果・各シリーズ公式サイト)を自動集計した非公式のモニタリングツールです。" +
         "トヨタ自動車・SUBARU・マツダの公式発表とは異なる場合があります。X/Facebook/Instagramの投稿本体、および社内クレームシステムのデータは含まれません。" +
-        "ポジティブ/ネガティブ表示は見出し文のみに基づく自動推定(簡易辞書・VADER)であり、参考値です。ライバル車スペック・GR Cup参戦チーム背景・モータースポーツ" +
+        "ポジティブ/ネガティブ表示は見出し文のみに基づく自動推定(簡易辞書・VADER)であり、参考値です。ライバル車スペック比較・モータースポーツ" +
         "競技フォーマット解説は手動調査による静的データで、自動更新の対象外です。トヨタ86(GT86/FT86)はYouTube/SNS話題のみを対象としています" +
         "(生産終了モデルのため公式リリース/メディア評価/クレームの対象外)。",
     },
@@ -161,25 +147,10 @@
       statSentimentUnit: " positive",
       statYoutube: "YouTube videos (global + JP)",
       statMotorsports: "Motorsports mentions",
-      rosterRoundsNote: function (done, total) {
-        return "Aggregated from entry lists through round " + done + " of " + total + " completed so far this season.";
-      },
-      rosterPositionUnit: "",
-      rosterPointsUnit: "pt",
-      rosterNoData: "No standings data",
-      rosterOfficialLink: "Official team page ↗",
-      rosterUnverified: "not independently verified",
       rivalsUnconfirmed: "reference-only",
-      rivalsSpecs: {
-        price: "Price (from)",
-        engine: "Engine",
-        power: "Power",
-        torque: "Torque",
-        zeroToSixty: "0-60 mph",
-        drivetrain: "Drivetrain",
-        transmission: "Transmission",
-        weight: "Curb weight",
-      },
+      rivalsConfirmed: { official: "Confirmed via official site", media: "Media-sourced (not directly confirmed by manufacturer)" },
+      rivalsSourceLabel: "Source: ",
+      rivalsPriceBarTitle: "Price range comparison",
       formatsConfidence: {
         official: "Confirmed via primary source",
         media_report: "Media-report based (not primary-confirmed)",
@@ -203,17 +174,18 @@
         events: "Events Worldwide",
         motorsports: "Motorsports (GR Cup and others)",
         motorsports_formats: "Series Format Explainers",
-        gr_cup_roster: "Toyota GR Cup Team Roster (North America)",
-        rivals: "Rival Vehicle Spec Comparison",
+        rivals: "Rival Vehicle Spec Comparison (by Grade, Japan/Australia)",
       },
       regions: {
         north_america: "North America",
         japan_asia: "Japan / Asia",
         australia: "Australia",
+        europe: "Europe",
         mx5_cup: "MX-5 (Roadster) One-Make",
       },
       series: {
         gr_cup: "Toyota GR Cup (GR86 Cup Edition one-make series)",
+        tmg_gt86_cup_vln: "TMG GT86 Cup (class within Germany's Nürburgring VLN/NLS series — current status unconfirmed)",
         tgr_86brz_cup: "TGR GR86/BRZ Cup (Super GT support race, Japan)",
         gr_cup_australia: "GR Cup Australia (formerly Toyota 86 Racing Series)",
         mx5_cup: "Mazda MX-5 Cup (IMSA-sanctioned, North America)",
@@ -221,8 +193,8 @@
       footer:
         "This dashboard is an unofficial monitoring tool that auto-aggregates public sources (Google News search, YouTube search results, official series sites). " +
         "It may differ from official Toyota, Subaru, or Mazda communications. It does not include raw X/Facebook/Instagram posts or internal complaint-system data. " +
-        "Positive/negative labels are automated headline-only estimates (a simple lexicon plus VADER) and should be treated as reference only. Rival vehicle specs, " +
-        "GR Cup team background, and motorsports format explainers are hand-researched static data, not part of the 30-minute auto-refresh. Toyota 86 (GT86/FT86) " +
+        "Positive/negative labels are automated headline-only estimates (a simple lexicon plus VADER) and should be treated as reference only. The rival vehicle spec " +
+        "comparison and motorsports format explainers are hand-researched static data, not part of the 30-minute auto-refresh. Toyota 86 (GT86/FT86) " +
         "is tracked in YouTube/social buzz only (a discontinued model, so it's excluded from official news/reviews/complaints).",
     },
   };
@@ -260,8 +232,7 @@
   }
 
   /** Resolves a bilingual JSON field ({ja,en}) from the static catalogs (rivals.json,
-   * gr_cup_roster team descriptions, motorsports_formats.json). Plain strings (proper
-   * nouns) pass through as-is. */
+   * motorsports_formats.json). Plain strings (proper nouns) pass through as-is. */
   function pick(value) {
     if (value === null || value === undefined) return "";
     if (typeof value === "string" || typeof value === "number") return String(value);
@@ -292,10 +263,6 @@
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
       '<rect x="3.5" y="5" width="17" height="15" rx="2"/><line x1="3.5" y1="9.5" x2="20.5" y2="9.5"/>' +
       '<line x1="8" y1="3" x2="8" y2="6.5"/><line x1="16" y1="3" x2="16" y2="6.5"/></svg>',
-    users:
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' +
-      '<path d="M17 20v-1.5a3.5 3.5 0 0 0-3.5-3.5h-4A3.5 3.5 0 0 0 6 18.5V20"/><circle cx="11" cy="7.5" r="3.5"/>' +
-      '<path d="M20.5 20v-1.2a3 3 0 0 0-2-2.8"/><path d="M15.5 4.2a3.5 3.5 0 0 1 0 6.6"/></svg>',
     scale:
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' +
       '<path d="M12 3v18"/><path d="M5 8l-3 6a3 3 0 0 0 6 0z"/><path d="M19 8l-3 6a3 3 0 0 0 6 0z"/><path d="M3 8h18"/><path d="M8 21h8"/></svg>',
@@ -305,11 +272,11 @@
   };
 
   /* ---------------------------------------------------------------------
-   * New section order (2026-08 restructure):
+   * Section order (2026-08 restructure, roster removed):
    *   1. GR86 news+reviews combined  2. BRZ/MX-5 news+reviews combined
    *   3. YouTube (4 vehicles)        4. Social buzz (4 vehicles)
    *   5. Complaints (3 vehicles)     6. Events
-   *   7. Motorsports -> format explainers -> GR Cup roster -> rivals
+   *   7. Motorsports -> format explainers -> rivals (grade-level spec comparison)
    * ------------------------------------------------------------------- */
   var LAYOUT = [
     { key: "news_reviews_gr86", size: "full", icon: "doc" },
@@ -320,7 +287,6 @@
     { key: "events", size: "full", icon: "calendar" },
     { key: "motorsports", size: "full", icon: "flag" },
     { key: "motorsports_formats", size: "full", icon: "book" },
-    { key: "gr_cup_roster", size: "full", icon: "users" },
     { key: "rivals", size: "full", icon: "scale" },
   ];
 
@@ -597,11 +563,26 @@
     return chart;
   }
 
+  /** A collapsed-by-default <details>/<summary> block used to hide bulkier real-data
+   * displays (schedule lists, standings charts) behind a toggle, so a series card with
+   * real data doesn't dominate the page height. Native <details> needs no JS wiring and
+   * is keyboard/screen-reader accessible for free. */
+  function buildCollapsible(summaryText, count) {
+    var details = el("details", "collapsible");
+    var summary = el("summary", "collapsible__summary");
+    summary.appendChild(document.createTextNode(summaryText));
+    if (count !== undefined) summary.appendChild(el("span", "collapsible__count", String(count)));
+    details.appendChild(summary);
+    var content = el("div", "collapsible__content");
+    details.appendChild(content);
+    return { details: details, content: content };
+  }
+
   function buildScheduleBlock(s) {
     var wrap = el("div", "series-card__group");
-    wrap.appendChild(el("div", "series-card__group-title", t().scheduleHeading));
 
     if (!s.has_real_schedule) {
+      wrap.appendChild(el("div", "series-card__group-title", t().scheduleHeading));
       if (s.schedule_chart_note) wrap.appendChild(el("p", "panel__note series-card__chart-note", s.schedule_chart_note));
       if (s.schedule_link) {
         var link = el("a", "series-card__link", t().scheduleLinkText);
@@ -615,9 +596,12 @@
 
     var rounds = s.schedule || [];
     if (rounds.length === 0) {
+      wrap.appendChild(el("div", "series-card__group-title", t().scheduleHeading));
       wrap.appendChild(el("p", "panel__empty", t().scheduleUnavailable));
       return wrap;
     }
+
+    var built = buildCollapsible(t().scheduleHeading, rounds.length);
 
     var nextRace = rounds.filter(function (r) { return r.status === "upcoming"; })[0];
     if (nextRace) {
@@ -627,7 +611,7 @@
       next.appendChild(
         el("span", "schedule-next__track", [nextRace.round, nextRace.name, nextRace.track].filter(Boolean).join(" · "))
       );
-      wrap.appendChild(next);
+      built.content.appendChild(next);
     }
 
     var list = el("ul", "schedule-list");
@@ -638,24 +622,32 @@
       li.appendChild(el("span", "schedule-list__label", [r.round, r.name, r.track].filter(Boolean).join(" · ")));
       list.appendChild(li);
     });
-    wrap.appendChild(list);
+    built.content.appendChild(list);
+    wrap.appendChild(built.details);
 
     return wrap;
   }
 
   function buildRankingBlock(s) {
     var wrap = el("div", "series-card__group");
-    wrap.appendChild(el("div", "series-card__group-title", t().rankingHeading));
-    if (s.standings_chart && s.standings_chart.length > 0) {
-      wrap.appendChild(buildStandingsChart(s.standings_chart));
+    var hasTeam = s.standings_chart && s.standings_chart.length > 0;
+    var hasDriver = s.driver_standings_chart && s.driver_standings_chart.length > 0;
+
+    if (!hasTeam && !hasDriver) {
+      wrap.appendChild(el("div", "series-card__group-title", t().rankingHeading));
+      if (s.standings_chart_note) wrap.appendChild(el("p", "panel__note series-card__chart-note", s.standings_chart_note));
+      return wrap;
     }
-    if (s.standings_chart_note) {
-      wrap.appendChild(el("p", "panel__note series-card__chart-note", s.standings_chart_note));
+
+    var count = (hasTeam ? s.standings_chart.length : 0) + (hasDriver ? s.driver_standings_chart.length : 0);
+    var built = buildCollapsible(t().rankingHeading, count);
+    if (hasTeam) built.content.appendChild(buildStandingsChart(s.standings_chart));
+    if (s.standings_chart_note) built.content.appendChild(el("p", "panel__note series-card__chart-note", s.standings_chart_note));
+    if (hasDriver) {
+      built.content.appendChild(el("div", "series-card__group-title", t().rankingDriversHeading));
+      built.content.appendChild(buildStandingsChart(s.driver_standings_chart));
     }
-    if (s.driver_standings_chart && s.driver_standings_chart.length > 0) {
-      wrap.appendChild(el("div", "series-card__group-title", t().rankingDriversHeading));
-      wrap.appendChild(buildStandingsChart(s.driver_standings_chart));
-    }
+    wrap.appendChild(built.details);
     return wrap;
   }
 
@@ -711,6 +703,14 @@
 
   function buildFormatCard(series) {
     var card = el("div", "format-card");
+
+    if (series.region) {
+      var regionRow = el("div", "format-card__region");
+      regionRow.appendChild(el("span", "format-card__region-flag", series.region.flag || ""));
+      regionRow.appendChild(el("span", "format-card__region-name", pick(series.region.name)));
+      card.appendChild(regionRow);
+    }
+
     card.appendChild(el("div", "format-card__title", t().series[series.key] || pick(series.series_label)));
 
     var confidence = series.confidence || "unavailable";
@@ -772,123 +772,133 @@
     return panel;
   }
 
-  function buildRosterCard(team) {
-    var card = el("div", "roster-card");
-    var top = el("div", "roster-card__top");
-    var nameWrap = el("div");
-    nameWrap.appendChild(el("div", "roster-card__name", team.name));
-    if (team.points !== null && team.points !== undefined) {
-      nameWrap.appendChild(el("div", "roster-card__points", team.points + t().rosterPointsUnit));
-    } else {
-      nameWrap.appendChild(el("div", "roster-card__points", t().rosterNoData));
-    }
-    top.appendChild(nameWrap);
-    if (team.position) {
-      top.appendChild(el("div", "roster-card__pos", "#" + team.position));
-    }
-    card.appendChild(top);
+  var RIVALS_VEHICLE_KEYS = ["gr86", "brz", "mx5"];
+  var RIVALS_MARKET_KEYS = ["jp", "au"];
 
-    if (team.verified === "web_search_only") {
-      card.appendChild(el("span", "roster-card__badge", t().rosterUnverified));
-    }
-
-    card.appendChild(el("p", "roster-card__desc", pick(team.description)));
-
-    var drivers = team.drivers || [];
-    if (drivers.length > 0) {
-      var driverWrap = el("div", "roster-card__drivers");
-      drivers.forEach(function (d) {
-        driverWrap.appendChild(el("span", "roster-chip", d.name + (d.car_no ? " #" + d.car_no : "")));
-      });
-      card.appendChild(driverWrap);
-    }
-
-    if (team.official_url) {
-      var link = el("a", "roster-card__link", t().rosterOfficialLink);
-      link.href = team.official_url;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      card.appendChild(link);
-    }
-
-    return card;
+  function formatMoney(amount, symbol) {
+    return symbol + amount.toLocaleString(currentLang === "ja" ? "ja-JP" : "en-US");
   }
 
-  function buildRosterPanel(icon, section) {
-    var panel = el("section", "panel panel--full");
-    var teams = section.teams || [];
-    panel.appendChild(buildPanelHeader(icon, t().sections.gr_cup_roster || section.label, teams.length));
+  function vehiclePriceRange(rivalsData, vehicleKey, marketKey) {
+    var marketData = rivalsData.vehicles[vehicleKey] && rivalsData.vehicles[vehicleKey].markets[marketKey];
+    if (!marketData || !marketData.grades || marketData.grades.length === 0) return null;
+    var prices = marketData.grades.map(function (g) { return g.price; });
+    return { min: Math.min.apply(null, prices), max: Math.max.apply(null, prices) };
+  }
 
-    var note = section.note || "";
-    if (section.rounds_completed !== undefined) {
-      note = t().rosterRoundsNote(section.rounds_completed, section.rounds_total) + " " + note;
-    }
-    if (note) panel.appendChild(el("p", "panel__note", note));
+  /** Horizontal price-range bars (min grade price -> max grade price) for GR86/BRZ/MX-5
+   * within one market/currency, positioned on a shared scale so relative pricing reads
+   * at a glance. Simple CSS bars — no charting library needed for 3 rows. */
+  function buildPriceBars(rivalsData, marketKey) {
+    var marketMeta = rivalsData.markets[marketKey];
+    if (!marketMeta) return null;
 
-    if (teams.length === 0) {
-      panel.appendChild(el("p", "panel__empty", t().panelEmpty));
-      return panel;
-    }
-
-    var grid = el("div", "roster-grid");
-    teams.forEach(function (team) {
-      grid.appendChild(buildRosterCard(team));
+    var ranges = {};
+    var allPrices = [];
+    RIVALS_VEHICLE_KEYS.forEach(function (vk) {
+      var r = vehiclePriceRange(rivalsData, vk, marketKey);
+      if (!r) return;
+      ranges[vk] = r;
+      allPrices.push(r.min, r.max);
     });
-    panel.appendChild(grid);
-    return panel;
+    if (allPrices.length === 0) return null;
+
+    var globalMin = Math.min.apply(null, allPrices);
+    var globalMax = Math.max.apply(null, allPrices);
+    var span = globalMax - globalMin || 1;
+
+    var wrap = el("div", "price-bars");
+    wrap.appendChild(el("div", "price-bars__title", pick(marketMeta.label) + " (" + marketMeta.currency + ")"));
+
+    RIVALS_VEHICLE_KEYS.forEach(function (vk) {
+      var r = ranges[vk];
+      if (!r) return;
+      var row = el("div", "price-bar-row");
+      row.appendChild(el("span", "price-bar-row__label vehicle-badge vehicle-badge--" + vk, t().vehicleFilter[vk]));
+      var track = el("div", "price-bar-row__track");
+      var fill = el("div", "price-bar-row__fill price-bar-row__fill--" + vk);
+      var leftPct = (100 * (r.min - globalMin)) / span;
+      var widthPct = Math.max(2, (100 * (r.max - r.min)) / span);
+      fill.style.left = leftPct + "%";
+      fill.style.width = widthPct + "%";
+      track.appendChild(fill);
+      row.appendChild(track);
+      row.appendChild(el("span", "price-bar-row__value", formatMoney(r.min, marketMeta.symbol) + " – " + formatMoney(r.max, marketMeta.symbol)));
+      wrap.appendChild(row);
+    });
+
+    return wrap;
   }
 
-  function buildRivalCard(rival) {
-    var card = el("div", "rival-card");
-    card.appendChild(el("div", "rival-card__make", pick(rival.make)));
-    card.appendChild(el("div", "rival-card__model", pick(rival.model) + (rival.year ? " (" + rival.year + ")" : "")));
+  function buildGradeTable(vehicleKey, marketData, marketMeta) {
+    var wrap = el("div", "grade-table");
+    var header = el("div", "grade-table__header");
+    header.appendChild(el("span", "vehicle-badge vehicle-badge--" + vehicleKey, t().vehicleFilter[vehicleKey]));
+    if (marketData.confirmed && t().rivalsConfirmed[marketData.confirmed]) {
+      header.appendChild(el("span", "grade-table__confidence grade-table__confidence--" + marketData.confirmed, t().rivalsConfirmed[marketData.confirmed]));
+    }
+    wrap.appendChild(header);
 
-    var specs = el("div", "rival-card__specs");
-    function addSpec(label, value, note) {
-      if (value === null || value === undefined || value === "") return;
-      specs.appendChild(el("span", "rival-card__spec-label", label));
-      var v = el("span", "rival-card__spec-value", String(value));
-      specs.appendChild(v);
-      if (note) {
-        specs.appendChild(el("span", "rival-card__spec-label"));
-        specs.appendChild(el("span", "rival-card__spec-value rival-card__unconfirmed", pick(note)));
+    var list = el("ul", "grade-list");
+    (marketData.grades || []).forEach(function (g) {
+      var li = el("li", "grade-list__item" + (g.confirmed === false ? " grade-list__item--unconfirmed" : ""));
+      var nameWrap = el("span", "grade-list__name", g.name + (g.transmission ? " · " + g.transmission : ""));
+      li.appendChild(nameWrap);
+      li.appendChild(el("span", "grade-list__price", formatMoney(g.price, marketMeta.symbol)));
+      list.appendChild(li);
+      if (g.confirmed === false && g.notes) {
+        var noteLi = el("li", "grade-list__note");
+        noteLi.textContent = pick(g.notes);
+        list.appendChild(noteLi);
       }
-    }
-    var S = t().rivalsSpecs;
-    addSpec(S.price, rival.price_usd_from ? "$" + rival.price_usd_from.toLocaleString(currentLang === "ja" ? "ja-JP" : "en-US") : null);
-    addSpec(S.engine, pick(rival.engine));
-    addSpec(S.power, rival.horsepower_hp ? rival.horsepower_hp + " hp" : null, rival.horsepower_note);
-    addSpec(S.torque, rival.torque_lb_ft ? rival.torque_lb_ft + " lb-ft" : null);
-    addSpec(S.zeroToSixty, rival.zero_to_60_sec ? rival.zero_to_60_sec + "s" : null, rival.zero_to_60_note);
-    addSpec(S.drivetrain, rival.drivetrain);
-    addSpec(S.transmission, pick(rival.transmission));
-    addSpec(
-      S.weight,
-      rival.curb_weight_lb ? rival.curb_weight_lb.toLocaleString(currentLang === "ja" ? "ja-JP" : "en-US") + " lb" : null,
-      rival.curb_weight_confirmed === false ? { ja: "(" + t().rivalsUnconfirmed + ")", en: "(" + t().rivalsUnconfirmed + ")" } : null
-    );
-    card.appendChild(specs);
+    });
+    wrap.appendChild(list);
 
-    if (rival.why_rival) {
-      card.appendChild(el("p", "rival-card__why", pick(rival.why_rival)));
+    if (marketData.price_basis_note) {
+      wrap.appendChild(el("p", "panel__note grade-table__basis-note", pick(marketData.price_basis_note)));
     }
-    return card;
+    if (marketData.source) {
+      var srcLink = el("a", "grade-table__source", t().rivalsSourceLabel + marketData.source.label);
+      srcLink.href = marketData.source.url;
+      srcLink.target = "_blank";
+      srcLink.rel = "noopener noreferrer";
+      wrap.appendChild(srcLink);
+    }
+    return wrap;
   }
 
   function buildRivalsPanel(icon, rivalsData) {
     var panel = el("section", "panel panel--full");
-    if (!rivalsData || !rivalsData.rivals) {
+    if (!rivalsData || !rivalsData.vehicles) {
       panel.appendChild(buildPanelHeader(icon, t().sections.rivals, 0));
       panel.appendChild(el("p", "panel__empty", t().panelEmpty));
       return panel;
     }
-    var rivals = rivalsData.rivals || [];
-    panel.appendChild(buildPanelHeader(icon, t().sections.rivals, rivals.length));
+    panel.appendChild(buildPanelHeader(icon, t().sections.rivals, RIVALS_VEHICLE_KEYS.length));
     if (rivalsData.note) panel.appendChild(el("p", "panel__note", pick(rivalsData.note)));
 
+    var barsHeading = el("div", "series-card__group-title", t().rivalsPriceBarTitle);
+    barsHeading.style.padding = "14px 20px 4px";
+    panel.appendChild(barsHeading);
+    var barsWrap = el("div", "price-bars-group");
+    RIVALS_MARKET_KEYS.forEach(function (mkt) {
+      var bars = buildPriceBars(rivalsData, mkt);
+      if (bars) barsWrap.appendChild(bars);
+    });
+    panel.appendChild(barsWrap);
+
     var grid = el("div", "rivals-grid");
-    rivals.forEach(function (rival) {
-      grid.appendChild(buildRivalCard(rival));
+    RIVALS_MARKET_KEYS.forEach(function (mkt) {
+      var marketMeta = rivalsData.markets[mkt];
+      if (!marketMeta) return;
+      var marketSection = el("div", "rivals-market");
+      marketSection.appendChild(el("div", "rivals-market__title", pick(marketMeta.label)));
+      RIVALS_VEHICLE_KEYS.forEach(function (vk) {
+        var marketData = rivalsData.vehicles[vk] && rivalsData.vehicles[vk].markets[mkt];
+        if (!marketData) return;
+        marketSection.appendChild(buildGradeTable(vk, marketData, marketMeta));
+      });
+      grid.appendChild(marketSection);
     });
     panel.appendChild(grid);
     return panel;
@@ -1051,8 +1061,6 @@
       var panel;
       if (entry.key === "motorsports") {
         panel = buildMotorsportsPanel(entry.icon, section);
-      } else if (entry.key === "gr_cup_roster") {
-        panel = buildRosterPanel(entry.icon, section);
       } else if (entry.key === "youtube") {
         panel = buildYoutubePanel(entry.icon, section);
       } else if (entry.key === "complaints" || entry.key === "social_buzz") {

@@ -1,172 +1,123 @@
 {
   "note": {
-    "ja": "GR86/BRZと同価格帯・同カテゴリでよく比較検討されるライバル車の参考スペック集。手動で調査・更新しており(30分おきの自動収集の対象外)、価格・数値は年式や仕様・情報源により変動するため参考値としてご利用ください。未確認の数値は「reference-only」として明示しています。",
-    "en": "A hand-curated reference catalog of rival vehicles commonly cross-shopped against the GR86/BRZ in the same price band and category. Unlike the auto-scraped sections, this is manually researched and updated occasionally, not every 30 minutes. Prices/figures vary by model year, trim, and source — treat as reference values. Unconfirmed figures are marked reference-only.",
-    "last_updated": "2026-08-22"
+    "ja": "GR86・BRZ・ロードスター(MX-5)を、日本市場・オーストラリア市場それぞれのグレード(トリム)別価格で比較する参考データです。手動で調査・更新しており(30分おきの自動収集の対象外)、価格は為替・改良・在庫状況等で変動するため参考値としてご利用ください。メーカー公式サイトから直接確認できなかった項目は、複数の自動車メディア報道を突き合わせたうえで「confirmed: media」と明記し、情報源間で数値に差異がある項目は「reference-only」として明示しています。",
+    "en": "A hand-curated reference comparing the GR86, BRZ, and MX-5 (Roadster) by individual grade/trim pricing in the Japan and Australia markets specifically. Unlike the auto-scraped sections, this is manually researched and updated occasionally (not every 30 minutes) — treat figures as reference values, since they shift with exchange rates, running changes, and dealer stock. Where a figure could not be confirmed directly from the manufacturer's own site, it's marked confirmed: \"media\" (cross-checked against outlet reporting instead). Anything with a discrepancy between sources is explicitly marked reference-only.",
+    "last_updated": "2026-08-23"
   },
-  "rivals": [
-    {
-      "key": "civic_type_r",
-      "make": { "ja": "ホンダ", "en": "Honda" },
-      "model": { "ja": "シビック タイプR", "en": "Civic Type R" },
-      "year": 2025,
-      "price_usd_from": 45895,
-      "engine": { "ja": "2.0L 直列4気筒ターボ", "en": "2.0L turbocharged inline-4" },
-      "horsepower_hp": 315,
-      "torque_lb_ft": 310,
-      "zero_to_60_sec": 5.5,
-      "zero_to_60_note": {
-        "ja": "Edmunds実測値。メーカー公表値とは異なる場合あり",
-        "en": "As tested by Edmunds; may differ from manufacturer claims"
-      },
-      "drivetrain": "FWD",
-      "layout_note": { "ja": "フロントエンジン", "en": "Front-engine" },
-      "transmission": { "ja": "6速MTのみ(ATなし)", "en": "6-speed manual only (no automatic offered)" },
-      "curb_weight_lb": 3188,
-      "curb_weight_confirmed": false,
-      "sources": ["Edmunds", "Carbuzz"],
-      "why_rival": {
-        "ja": "同価格帯のFF最強ホットハッチ。MT専用・走り重視の姿勢がGR86/BRZと直接競合",
-        "en": "A top-tier FWD hot hatch in a similar price band; manual-only, driver-focused positioning puts it in direct cross-shop territory with GR86/BRZ"
+  "markets": {
+    "jp": { "label": { "ja": "日本", "en": "Japan" }, "currency": "JPY", "symbol": "¥" },
+    "au": { "label": { "ja": "オーストラリア", "en": "Australia" }, "currency": "AUD", "symbol": "A$" }
+  },
+  "vehicles": {
+    "gr86": {
+      "label": { "ja": "トヨタ GR86", "en": "Toyota GR86" },
+      "markets": {
+        "jp": {
+          "confirmed": "media",
+          "as_of": "2025-07-15 一部改良後(旧GT/GT EXグレードは廃止)",
+          "source": { "label": "motor-fan.jp / car.motor-fan.jp", "url": "https://motor-fan.jp/article/1590078/" },
+          "grades": [
+            { "name": "RC", "price": 2936000, "transmission": "6MT" },
+            { "name": "SZ", "price": 3195000, "transmission": "6MT" },
+            { "name": "SZ", "price": 3293000, "transmission": "6AT" },
+            { "name": "RZ", "price": 3518000, "transmission": "6MT" },
+            { "name": "RZ", "price": 3616000, "transmission": "6AT" }
+          ]
+        },
+        "au": {
+          "confirmed": "media",
+          "as_of": "2026年モデル",
+          "source": { "label": "CarExpert", "url": "https://www.carexpert.com.au/toyota/gr86" },
+          "price_basis_note": {
+            "ja": "オンロードコスト(登録費用等)を含まない価格(before on-road costs)。toyota.com.auは直接取得できなかったため報道ベース。",
+            "en": "Prices exclude on-road costs (registration etc). toyota.com.au could not be fetched directly, so these are media-sourced."
+          },
+          "grades": [
+            { "name": "GT", "price": 43940, "transmission": "6MT/6AT" },
+            { "name": "GTS", "price": 46090, "transmission": "6MT/6AT" },
+            { "name": "GTS + Dynamic Performance Pack + Red Interior", "price": 50490, "transmission": "6MT/6AT" }
+          ]
+        }
       }
     },
-    {
-      "key": "gr_supra",
-      "make": { "ja": "トヨタ", "en": "Toyota" },
-      "model": { "ja": "GRスープラ 2.0L(2024年モデルまで。2025年モデルは3.0L I6のみに整理)", "en": "GR Supra 2.0L (discontinued after MY2024; 2025 MY is 3.0L I6 only)" },
-      "year": 2024,
-      "price_usd_from": 46635,
-      "engine": { "ja": "2.0L 直列4気筒ターボ", "en": "2.0L turbocharged inline-4" },
-      "horsepower_hp": 255,
-      "torque_lb_ft": 295,
-      "zero_to_60_sec": 5.0,
-      "zero_to_60_note": { "ja": "トヨタ公表値", "en": "Manufacturer claim" },
-      "drivetrain": "RWD",
-      "layout_note": { "ja": "フロントミッドシップ", "en": "Front-mid engine" },
-      "transmission": { "ja": "8速ATのみ(2.0Lグレードに6速MT設定なし)", "en": "8-speed automatic only (no manual on the 2.0L grade)" },
-      "curb_weight_lb": null,
-      "curb_weight_confirmed": false,
-      "sources": ["Cars.com", "KBB"],
-      "why_rival": {
-        "ja": "同じトヨタGRブランドのFRスポーツ。GR86よりワンランク上の価格帯だが、GRファンの比較対象として定番",
-        "en": "Toyota's own GR-branded RWD sports car, one price tier above the GR86 — a natural comparison point for GR-brand shoppers"
+    "brz": {
+      "label": { "ja": "スバル BRZ", "en": "Subaru BRZ" },
+      "markets": {
+        "jp": {
+          "confirmed": "official",
+          "as_of": "2026-07-30 改良モデル(旧GT/GT-Hグレードは廃止、R/S/STI Sportに再編)",
+          "source": { "label": "subaru.jp(公式)", "url": "https://www.subaru.jp/brz/grade/" },
+          "grades": [
+            { "name": "R", "price": 3377000, "transmission": "6MT" },
+            { "name": "R", "price": 3410000, "transmission": "6AT" },
+            { "name": "S", "price": 3564000, "transmission": "6MT" },
+            { "name": "S", "price": 3597000, "transmission": "6AT" },
+            { "name": "STI Sport", "price": 3839000, "transmission": "6MT" },
+            { "name": "STI Sport", "price": 3872000, "transmission": "6AT" }
+          ]
+        },
+        "au": {
+          "confirmed": "media",
+          "as_of": "2026年モデル",
+          "source": { "label": "CarExpert / CarsGuide", "url": "https://www.carexpert.com.au/subaru/brz/pricing" },
+          "price_basis_note": {
+            "ja": "subaru.com.auは直接取得できなかったため報道ベース。ベースグレードは情報源間で「オンロードコスト除く A$47,890」と「乗り出し(ドライブアウェイ)A$52,206」の2通りの表記があり、算出基準が一致しないため未確定として扱う。",
+            "en": "subaru.com.au could not be fetched directly, so these are media-sourced. The base grade has two figures across sources — \"A$47,890 excl. on-road costs\" vs. \"A$52,206 drive-away\" — that don't reconcile to a consistent basis, so it's flagged unconfirmed."
+          },
+          "grades": [
+            { "name": "Base", "price": 47890, "transmission": "6MT/6AT", "confirmed": false,
+              "notes": { "ja": "オンロードコスト除く価格として報道。別情報源では乗り出し価格A$52,206の記載あり(算出基準不一致のため要検証)。", "en": "Reported as excl. on-road costs. A separate source cites a $52,206 drive-away price instead — basis not reconciled, needs verification." } },
+            { "name": "Ts", "price": 50190, "transmission": "6MT/6AT" },
+            { "name": "Ts Kiiro (限定95台)", "price": 53590, "transmission": "6MT/6AT", "confirmed": false,
+              "notes": { "ja": "オンロードコスト除く価格。別情報源では乗り出し価格A$58,191の記載あり。", "en": "Excl. on-road costs. A separate source cites a $58,191 drive-away price instead." } }
+          ]
+        }
       }
     },
-    {
-      "key": "nissan_z",
-      "make": { "ja": "日産", "en": "Nissan" },
-      "model": { "ja": "フェアレディZ(Sport)", "en": "Z (Sport)" },
-      "year": 2025,
-      "price_usd_from": 42970,
-      "engine": { "ja": "3.0L V6 ツインターボ", "en": "3.0L twin-turbocharged V6" },
-      "horsepower_hp": 400,
-      "torque_lb_ft": 350,
-      "zero_to_60_sec": 4.5,
-      "zero_to_60_note": { "ja": "MT時。AT(9速)は約4.3秒とされる(情報源により差あり)", "en": "Manual transmission; automatic (9-speed) reported around 4.3s — varies by source" },
-      "drivetrain": "RWD",
-      "layout_note": { "ja": "フロントエンジン", "en": "Front-engine" },
-      "transmission": { "ja": "6速MT または 9速AT", "en": "6-speed manual or 9-speed automatic" },
-      "curb_weight_lb": 3549,
-      "curb_weight_confirmed": true,
-      "sources": ["Edmunds", "KBB", "CarsDirect"],
-      "why_rival": {
-        "ja": "GR86/BRZよりパワフルな直系ライバル。同じFRクーペ・MT設定ありという構図で頻繁に比較される",
-        "en": "A more powerful direct rival — same RWD coupe layout with manual availability makes it a frequent head-to-head comparison"
-      }
-    },
-    {
-      "key": "mustang",
-      "make": { "ja": "フォード", "en": "Ford" },
-      "model": { "ja": "マスタング EcoBoost / GT", "en": "Mustang EcoBoost / GT" },
-      "year": 2025,
-      "price_usd_from": 33915,
-      "engine": { "ja": "EcoBoost: 2.3L 直4ターボ / GT: 5.0L NA V8", "en": "EcoBoost: 2.3L turbo inline-4 / GT: 5.0L naturally aspirated V8" },
-      "horsepower_hp": 315,
-      "horsepower_note": { "ja": "EcoBoost値。GT V8は480〜486hp(情報源により差あり)", "en": "EcoBoost figure shown; GT V8 is 480-486 hp depending on source" },
-      "torque_lb_ft": 350,
-      "zero_to_60_sec": 4.6,
-      "zero_to_60_note": {
-        "ja": "EcoBoost目安(情報源により4.5〜4.7秒)。GT V8は変速機により3.9〜4.8秒",
-        "en": "EcoBoost approximate (sources range 4.5-4.7s); GT V8 ranges 3.9-4.8s depending on transmission/tester"
-      },
-      "drivetrain": "RWD",
-      "layout_note": { "ja": "フロントエンジン", "en": "Front-engine" },
-      "transmission": { "ja": "EcoBoost: 10速ATのみ / GT: 6速MT or 10速AT", "en": "EcoBoost: 10-speed automatic only / GT: 6-speed manual or 10-speed automatic" },
-      "curb_weight_lb": null,
-      "curb_weight_confirmed": false,
-      "sources": ["Edmunds", "KBB", "Carbuzz", "Ford.com"],
-      "why_rival": {
-        "ja": "EcoBoostは価格帯が近いFRスポーツ、GT V8はパワー志向層の比較対象として併記",
-        "en": "EcoBoost is price-comparable RWD sport coupe; GT V8 included as the comparison point for power-focused shoppers"
-      }
-    },
-    {
-      "key": "mx5_miata",
-      "make": { "ja": "マツダ", "en": "Mazda" },
-      "model": { "ja": "ロードスター(MX-5 Miata)", "en": "MX-5 Miata (Roadster)" },
-      "year": 2025,
-      "price_usd_from": 29530,
-      "engine": { "ja": "2.0L 直列4気筒NA", "en": "2.0L naturally aspirated inline-4" },
-      "horsepower_hp": 181,
-      "torque_lb_ft": 151,
-      "zero_to_60_sec": 5.9,
-      "zero_to_60_note": { "ja": "6秒未満とされる(情報源により差あり)", "en": "Reported under 6 seconds; varies by source" },
-      "drivetrain": "RWD",
-      "layout_note": { "ja": "フロントミッドシップ、軽量オープン2シーター", "en": "Front-mid engine, lightweight open-top 2-seater" },
-      "transmission": { "ja": "6速MT(Grand Touringのみ6速ATも選択可)", "en": "6-speed manual (6-speed automatic also available on Grand Touring)" },
-      "curb_weight_lb": 2440,
-      "curb_weight_note": { "ja": "グレードにより2,366〜2,515lb", "en": "Ranges 2,366-2,515 lb depending on trim" },
-      "curb_weight_confirmed": true,
-      "sources": ["Autoblog", "KBB", "Edmunds"],
-      "why_rival": {
-        "ja": "本ダッシュボードでは追跡対象車両としても別途扱っているが、スペック比較の対象としても定番のライバル。GR86/BRZより軽量・非力だが、オープンボディという軸で比較される",
-        "en": "Also independently tracked as one of this dashboard's own monitored vehicles, but included here too as a classic spec-comparison rival — lighter and less powerful than GR86/BRZ, compared primarily on its open-top layout"
-      }
-    },
-    {
-      "key": "elantra_n",
-      "make": { "ja": "ヒョンデ(現代)", "en": "Hyundai" },
-      "model": { "ja": "エラントラN", "en": "Elantra N" },
-      "year": 2025,
-      "price_usd_from": 34350,
-      "engine": { "ja": "2.0L 直列4気筒ターボ", "en": "2.0L turbocharged inline-4" },
-      "horsepower_hp": 276,
-      "horsepower_note": { "ja": "N Grin Boost使用時(DCTのみ)は最大286hp", "en": "Up to 286 hp with N Grin Boost (DCT trim only)" },
-      "torque_lb_ft": 289,
-      "zero_to_60_sec": 4.8,
-      "zero_to_60_note": { "ja": "DCT+ローンチコントロール時。MT時は約5.2秒", "en": "DCT with launch control; manual is approximately 5.2s" },
-      "drivetrain": "FWD",
-      "layout_note": { "ja": "フロントエンジン", "en": "Front-engine" },
-      "transmission": { "ja": "6速MT または 8速DCT", "en": "6-speed manual or 8-speed DCT" },
-      "curb_weight_lb": 3186,
-      "curb_weight_confirmed": true,
-      "sources": ["Carbuzz", "Edmunds"],
-      "why_rival": {
-        "ja": "GR86/BRZより手頃な価格帯のスポーツセダン。MT設定ありという共通点で比較されることが多い",
-        "en": "A more affordable sport sedan; frequently compared for sharing manual-transmission availability with GR86/BRZ"
-      }
-    },
-    {
-      "key": "golf_gti",
-      "make": { "ja": "フォルクスワーゲン", "en": "Volkswagen" },
-      "model": { "ja": "ゴルフGTI", "en": "Golf GTI" },
-      "year": 2025,
-      "price_usd_from": 34945,
-      "engine": { "ja": "2.0L 直列4気筒ターボ", "en": "2.0L turbocharged inline-4" },
-      "horsepower_hp": 241,
-      "torque_lb_ft": 273,
-      "zero_to_60_sec": 5.7,
-      "zero_to_60_note": { "ja": "情報源によるおおよその目安値", "en": "Approximate figure per available sources" },
-      "drivetrain": "FWD",
-      "layout_note": { "ja": "フロントエンジン", "en": "Front-engine" },
-      "transmission": { "ja": "7速DCTのみ(2025年モデルの米国仕様はMT設定なし)", "en": "7-speed DCT only (2025 US-spec has no manual option; earlier model years offered a manual)" },
-      "curb_weight_lb": 3185,
-      "curb_weight_confirmed": true,
-      "sources": ["Edmunds", "Carbuzz", "iSeeCars", "KBB"],
-      "why_rival": {
-        "ja": "定番のホットハッチ。GR86/BRZより実用性重視だが同価格帯の走り好き層で比較対象になる",
-        "en": "The archetypal hot hatch; more practicality-focused than GR86/BRZ but a common cross-shop for driving enthusiasts in the same price band"
+    "mx5": {
+      "label": { "ja": "マツダ ロードスター(MX-5)", "en": "Mazda MX-5 (Roadster)" },
+      "markets": {
+        "jp": {
+          "confirmed": "media",
+          "as_of": "2026-06-26 商品改良(2026年9月上旬発売予定、特別仕様車PS追加)",
+          "source": { "label": "car-repo.jp(公式発表の報道)", "url": "https://car-repo.jp/blog-entry-2026-mazda-roadster.html" },
+          "grades": [
+            { "name": "S(ソフトトップ)", "price": 2959000, "transmission": "6MT" },
+            { "name": "S Special Package(ソフトトップ)", "price": 3146000, "transmission": "6MT" },
+            { "name": "S Special Package(ソフトトップ)", "price": 3267000, "transmission": "6AT" },
+            { "name": "S Leather Package(ソフトトップ)", "price": 3553000, "transmission": "6MT" },
+            { "name": "S Leather Package(ソフトトップ)", "price": 3674000, "transmission": "6AT" },
+            { "name": "S Leather Package V Selection(ソフトトップ)", "price": 3608000, "transmission": "6MT" },
+            { "name": "S Leather Package V Selection(ソフトトップ)", "price": 3729000, "transmission": "6AT" },
+            { "name": "PS 特別仕様車(ソフトトップ)", "price": 3663000, "transmission": "6MT" },
+            { "name": "RS(ソフトトップ)", "price": 3740000, "transmission": "6MT" },
+            { "name": "RF S(RFハードトップ)", "price": 3850000, "transmission": "6MT" },
+            { "name": "RF S(RFハードトップ)", "price": 3883000, "transmission": "6AT" },
+            { "name": "RF VS(RFハードトップ)", "price": 4213000, "transmission": "6MT" },
+            { "name": "RF VS(RFハードトップ)", "price": 4246000, "transmission": "6AT" },
+            { "name": "RF RS(RFハードトップ)", "price": 4367000, "transmission": "6MT" },
+            { "name": "RF 最上位グレード(名称未確定)", "price": 4697000, "transmission": "6MT", "confirmed": false,
+              "notes": { "ja": "報道内の総額レンジ(¥2,959,000〜¥4,697,000)から存在が示唆される最上位価格帯だが、正式なグレード名を確認できていない(RF RSの上位オプション装着車の可能性)。", "en": "Implied by the reported overall price range (¥2,959,000–¥4,697,000), but the exact grade name behind this top figure could not be confirmed (possibly an optioned-up RF RS rather than a distinct grade)." } }
+          ]
+        },
+        "au": {
+          "confirmed": "media",
+          "as_of": "2026年モデル",
+          "source": { "label": "CarsGuide / Zigwheels", "url": "https://www.carsguide.com.au/mazda/mx-5/price/2026" },
+          "price_basis_note": {
+            "ja": "mazda.com.auは直接取得できなかったため報道ベース。オンロードコストを含まない価格(before on-road costs)。",
+            "en": "mazda.com.au could not be fetched directly, so these are media-sourced. Prices exclude on-road costs."
+          },
+          "grades": [
+            { "name": "G Roadster(ソフトトップ)", "price": 42140, "transmission": "6MT" },
+            { "name": "GT RS Roadster(ソフトトップ)", "price": 52290, "transmission": "6MT" },
+            { "name": "RF(ハードトップ)", "price": 44071, "transmission": "6MT" },
+            { "name": "RF(ハードトップ)", "price": 46091, "transmission": "6AT" },
+            { "name": "RF GT / RF GT Black Roof(ハードトップ)", "price": 53426, "transmission": "6MT/6AT", "confirmed": false,
+              "notes": { "ja": "情報源により上限額に差異あり(A$53,426〜A$56,790)。低い方の数値を採用。", "en": "Sources disagree on the ceiling figure (A$53,426–A$56,790); the lower figure is used here." } }
+          ]
+        }
       }
     }
-  ]
+  }
 }

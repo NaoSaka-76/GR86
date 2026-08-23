@@ -10,7 +10,10 @@ site/data/latest.jsonへ出力する。
   4. social_buzz         — 同4車種のSNS話題(トレンド/最新タブ切替)
   5. complaints          — GR86/BRZ/ロードスターのお客様の声・クレーム(トレンド/最新タブ切替)
   6. events              — 世界各地のイベント情報(従来どおり)
-  7. motorsports + gr_cup_roster — GR86モータースポーツ(トピックス速報 + フォーマット静的解説)
+  7. motorsports         — GR86モータースポーツ(トピックス速報 + フォーマット静的解説)
+
+(2026年8月: GR Cup北米の参戦チーム名簿セクションは削除。スケジュール/ランキングの実データ
+表示は引き続きmotorsportsセクション内に残す。)
 
 トヨタ86(GT86/FT86)はYouTube/SNS話題のみを対象とする(生産終了モデルのため公式リリース/
 メディア評価/クレームは対象外。events/motorsportsも対象外)。
@@ -27,7 +30,6 @@ from sources import (
     events,
     media_reviews,
     motorsports,
-    participant_roster,
     official_news,
     sentiment,
     social_buzz,
@@ -137,14 +139,6 @@ def _motorsports_section() -> dict:
     }
 
 
-def _roster_section() -> dict:
-    data = participant_roster.fetch()
-    return {
-        "label": "Toyota GR Cup 参戦チーム名簿(北米)",
-        **data,
-    }
-
-
 def build_dashboard() -> dict:
     now_utc = datetime.now(timezone.utc)
     now_jst = now_utc.astimezone(JST)
@@ -174,7 +168,6 @@ def build_dashboard() -> dict:
         ),
     }
     sections["motorsports"] = _motorsports_section()
-    sections["gr_cup_roster"] = _roster_section()
 
     return {
         "generated_at_utc": now_utc.isoformat(),

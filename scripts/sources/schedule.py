@@ -6,9 +6,20 @@ Toyota GR Cup(北米, grcupseries.com)は、"GR Corolla Watch"で確認済みの
 マークアップ)。SKILL.mdの「姉妹サイトの共通CMSを見つけたら使い回す」の教訓どおり、
 TC Americaで実証済みの解析ロジックをBASE_URLだけ差し替えて再利用している。
 
-日本(TGR GR86/BRZ Cup)・オーストラリア(GR Cup Australia)は、静的HTMLの日程一覧ページが
-見つからなかった(日本は概要ページのみ、豪州は公式サイトが403を返す)ため、スクレイピングは
-せず公式ページ/検索リンクのみを提供する。
+日本(TGR GR86/BRZ Cup)は、2026年8月の再調査でスケジュールの静的HTMLページが見つかった
+(`https://toyotagazooracing.com/jp/86brz/calendar/{year}/` — `<li class="cal-list__item">`
+の一覧表、ラウンド番号・大会名・開催日・サーキット名を含む)。実HTMLで確認済みのため
+fetch_tgr_86brz_cup_schedule()で実データ化している。一方、順位表(ranking)ページは
+PDFへのリンクのみでHTML表が存在しない(`https://toyotagazooracing.com/jp/86brz/ranking/{year}/`)
+ため、SKILL.mdが警告するPDFの文字化けリスクを避け、順位はスクレイピングせずリンクのみ
+提供する。
+
+オーストラリア(GR Cup Australia)は、公式サイト(toyota.com.au)が403を返しスクレイピング
+不可。サードパーティのsupercars.com(GR Cupが併催するSupercars選手権の公式サイト)には
+セッション単位の実結果ページ(`/results/{year}/{event-slug}/{session-code}`)が存在するが、
+シーズン通算のポイントランキング表はどこにも見当たらず、セッションコードもイベントごとに
+個別調査が必要で安定した命名規則が確認できなかった。誤ったURL推測によるデータ欠落リスクが
+高いため、今回はスクレイピングを見送り公式ページ/検索リンクのみを提供する。
 """
 
 from __future__ import annotations
@@ -24,7 +35,11 @@ from .common import REQUEST_TIMEOUT, USER_AGENT
 GR_CUP_BASE_URL = "https://www.grcupseries.com"
 GR_CUP_CALENDAR_URL = f"{GR_CUP_BASE_URL}/calendar"
 
+JP_86BRZ_CUP_BASE_URL = "https://toyotagazooracing.com"
 JP_86BRZ_CUP_URL = "https://toyotagazooracing.com/jp/86brz/about/"
+JP_86BRZ_CUP_CALENDAR_URL_TMPL = JP_86BRZ_CUP_BASE_URL + "/jp/86brz/calendar/{year}/"
+JP_86BRZ_CUP_RANKING_URL_TMPL = JP_86BRZ_CUP_BASE_URL + "/jp/86brz/ranking/{year}/"
+
 GR_CUP_AUSTRALIA_URL = "https://www.toyota.com.au/gazoo-racing/gr-cup/races"
 MX5_CUP_SCHEDULE_URL = "https://www.mx-5cup.com/schedule"
 
@@ -32,6 +47,8 @@ _MONTH_NUM = {
     "JAN": 1, "FEB": 2, "MAR": 3, "APR": 4, "MAY": 5, "JUN": 6,
     "JUL": 7, "AUG": 8, "SEP": 9, "OCT": 10, "NOV": 11, "DEC": 12,
 }
+
+_JP_DATE_RE = re.compile(r"(\d{1,2})月(\d{1,2})日")
 
 
 def _session() -> requests.Session:
@@ -135,6 +152,61 @@ def fetch_gr_cup_schedule() -> list[dict]:
     return _fetch_calendar_platform_schedule(GR_CUP_CALENDAR_URL)
 
 
+def fetch_tgr_86brz_cup_schedule(year: int | None = None) -> list[dict]:
+    """TGR GR86/BRZ Cup(日本)公式カレンダーページ(静的HTML)から年間日程を取得する。
+
+    2026年8月にHTMLを実際に確認した際のマークアップ: `<li class="cal-list__item">` の
+    リスト内に、ラウンド番号(`cal-list__item__cell__01__rank`)・大会名
+    (`cal-list__item__title`)・開催日(`cal-list__item__data__dt`、和暦日付表記のみで
+    年は含まれない)・サーキット名(「開催サーキット」の直後の`<span>`)が入っている。
+    """
+    year = year or date.today().year
+    session = _session()
+    events: list[dict] = []
+    try:
+        resp = session.get(JP_86BRZ_CUP_CALENDAR_URL_TMPL.format(year=year), timeout=REQUEST_TIMEOUT)
+        resp.raise_for_status()
+        resp.encoding = resp.apparent_encoding or "utf-8"
+        html_text = resp.text
+
+        items = re.findall(r'<li class="cal-list__item">(.*?)</li>', html_text, re.S)
+        for item in items:
+            rank_m = re.search(r'cal-list__item__cell__01__rank">([^<]*)<', item)
+            title_m = re.search(r'cal-list__item__title">([^<]*)<', item)
+            dt_m = re.search(r'cal-list__item__data__dt">([^<]*)<', item)
+            circuit_m = re.search(r"開催サーキット\s*<span>([^<]*)</span>", item)
+            if not (rank_m and dt_m):
+                continue
+
+            date_text = html_module.unescape(dt_m.group(1).strip())
+            dates = _JP_DATE_RE.findall(date_text)
+            if not dates:
+                continue
+            start_month, start_day = int(dates[0][0]), int(dates[0][1])
+            sort_key = year * 10000 + start_month * 100 + start_day
+
+            try:
+                round_no = int(rank_m.group(1))
+            except ValueError:
+                round_no = None
+
+            events.append(
+                {
+                    "round": f"Round {round_no}" if round_no is not None else "",
+                    "name": html_module.unescape(title_m.group(1).strip()) if title_m else "",
+                    "track": html_module.unescape(circuit_m.group(1).strip()) if circuit_m else "",
+                    "date_range": date_text,
+                    "status": "upcoming",
+                    "sort_key": sort_key,
+                }
+            )
+    except Exception:  # noqa: BLE001
+        return []
+
+    events.sort(key=lambda e: e["sort_key"])
+    return events
+
+
 def _finalize(events: list[dict]) -> list[dict]:
     for e in events:
         e["status"] = _status(e["sort_key"])
@@ -145,7 +217,7 @@ def _finalize(events: list[dict]) -> list[dict]:
 def fetch_all() -> dict:
     return {
         "gr_cup": _finalize(fetch_gr_cup_schedule()),
-        "tgr_86brz_cup": {"link": JP_86BRZ_CUP_URL},
+        "tgr_86brz_cup": _finalize(fetch_tgr_86brz_cup_schedule()),
         "gr_cup_australia": {"link": GR_CUP_AUSTRALIA_URL},
         "mx5_cup": {"link": MX5_CUP_SCHEDULE_URL},
     }

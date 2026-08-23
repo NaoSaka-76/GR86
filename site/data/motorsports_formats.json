@@ -8,6 +8,7 @@
     {
       "key": "gr_cup",
       "confidence": "media_report",
+      "region": { "flag": "🇺🇸", "name": { "ja": "北米(米国・カナダ)", "en": "North America (US & Canada)" } },
       "sections": {
         "eligibility": {
           "ja": "参戦車両はシリーズが製作するToyota GR86ワンメイクカー(コントロールタイヤ: Continental)。ドライバーのライセンス区分(SRO系列シリーズのようなFIAドライバーレーティング制が適用されるか等)は公開情報で確認できませんでした。",
@@ -38,6 +39,7 @@
     {
       "key": "tgr_86brz_cup",
       "confidence": "media_report",
+      "region": { "flag": "🇯🇵", "name": { "ja": "日本", "en": "Japan" } },
       "sections": {
         "eligibility": {
           "ja": "エントリー資格は「プロフェッショナルシリーズ」と「クラブマンシリーズ」のどちらに参戦するかで異なる(詳細は下記「ドライバー区分」を参照)。車両技術規定の詳細は公開情報で確認できませんでした。",
@@ -67,6 +69,7 @@
     {
       "key": "gr_cup_australia",
       "confidence": "official",
+      "region": { "flag": "🇦🇺", "name": { "ja": "オーストラリア", "en": "Australia" } },
       "sections": {
         "eligibility": {
           "ja": "Motorsport Australia発行の競技ライセンス(Circuit Licence、Provisional不可。保有12か月未満の場合はNational Competition Courseの受講が必要)を保持し、満15歳以上であること(バサースト/マウントパノラマ戦のみ州法により満16歳以上)。シリーズ全体で登録ドライバー最大32名、1大会あたり最大32台エントリー、ゲストドライバーは1大会あたり最大4名まで。車両は指定Technical Managerが規定どおりに製作し、コントロールタイヤはDunlop Direzza 225/40R18。車両最低重量1230kg・ドライバー最低体重85kg(不足分はバラスト搭載)。",
@@ -97,6 +100,37 @@
         "ja": "上記の詳細な参戦資格・レースウィークエンド構成・ポイント制度は、Motorsport Australia公式「TOYOTA GAZOO Racing Australia GR Cup Sporting and Technical Regulations」(2024年版)を情報源としています。本サイトの作成時点で当該PDFへの安定した直接リンクを再確認できなかったため、上記リンクは検証済みのWikipediaページのみを掲載しています。",
         "en": "The detailed eligibility, weekend-format, and points-system figures above are sourced from Motorsport Australia's official 'TOYOTA GAZOO Racing Australia GR Cup Sporting and Technical Regulations' document (2024 version). A stable direct link to that PDF could not be re-confirmed as working at the time this site was built, so only the verified Wikipedia pages are linked above."
       }
+    },
+    {
+      "key": "tmg_gt86_cup_vln",
+      "confidence": "media_report",
+      "region": { "flag": "🇩🇪", "name": { "ja": "欧州(ドイツ・ニュルブルクリンク)", "en": "Europe (Germany, Nürburgring)" } },
+      "sections": {
+        "eligibility": {
+          "ja": "2013年にトヨタ自動車系のレース部門TMG(Toyota Motorsport GmbH)が発売した専用レーシングカー「TMG GT86 CS-V3」(車両価格 約38,500ユーロ+税)のワンメイククラス。VLN(現NLS)の既存クラス構造内の1カテゴリーとして運営されていた。",
+          "en": "A one-make class for the dedicated 'TMG GT86 CS-V3' race car (~€38,500 plus tax) built by Toyota Motorsport GmbH (TMG), launched for the 2013 season. It ran as one category within the existing VLN (now NLS) class structure rather than as a fully standalone championship."
+        },
+        "points": {
+          "ja": "配点方式の詳細は公開情報で確認できませんでした。トヨタ欧州公式発表では「レース/シーズン成績に応じた賞金」が用意されるとされていますが、具体的な点数計算式の記載はありません。",
+          "en": "Detailed points-per-finishing-position figures could not be confirmed from public sources. Toyota Europe's own announcement mentions prize money tied to race/season results, but does not specify a points formula."
+        },
+        "weekend_format": {
+          "ja": "VLN/NLSは年間10戦前後(3月〜10月)のニュルブルクリンク耐久レースシリーズで、GT86 Cupは専用の独立したレースウィークエンドを持たず、この既存カレンダーに乗る形で開催されていた。",
+          "en": "VLN/NLS runs roughly 10 rounds per year (March–October) as a Nürburgring endurance series; the GT86 Cup rode on this existing calendar rather than holding its own separate event weekends."
+        },
+        "classification": {
+          "ja": "「TMG GT86 CS-V3」という単一スペック車両のワンメイククラスで、Pro/Amのような区分はない。",
+          "en": "A single-spec one-make class for the 'TMG GT86 CS-V3' — no Pro/Am or similar driver-grade split."
+        },
+        "season_length": {
+          "ja": "2013年シーズンに開幕し、トヨタ欧州公式発表で2019年時点でも継続開催が確認できる。ただし2026年8月の再調査時点で、現行(2024〜2026年)NLSの公式クラス一覧(Cup1〜Cup3等、いずれもポルシェ系のワンメイククラス)にGT86/BRZの名称は見当たらず、現在もブランド化された独立クラスとして継続しているかは確認できませんでした。現行シーズンでの開催有無は未確定である旨、明記します。",
+          "en": "Launched for the 2013 season and confirmed still running as of 2019, per Toyota Europe's own announcement. However, as of a re-check in August 2026, the current (2024–2026) NLS official class list (Cup1 through Cup3, all Porsche-based one-make classes today) does not show a GT86/BRZ category by name — whether this remains active as a distinctly branded 'GT86 Cup' today could not be confirmed. Current-season status should be treated as unresolved."
+        }
+      },
+      "sources": [
+        { "label": "Toyota Europe Newsroom — 2019 TMG GT86 Cup launched for VLN series", "url": "https://newsroom.toyota.eu/2019-tmg-gt86-cup-launched-for-vln-series/" },
+        { "label": "ADAC Nürburgring Langstrecken-Serie (official VLN/NLS site)", "url": "https://www.nuerburgring-langstrecken-serie.de/" }
+      ]
     }
   ]
 }
