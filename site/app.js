@@ -761,10 +761,9 @@
       return wrap;
     }
 
-    // Primary content of this card — collapsible like schedule/ranking below it, but
-    // defaults OPEN (schedule/ranking default closed).
+    // Collapsible like schedule/ranking below it — defaults closed, consistent with
+    // those blocks.
     var built = buildCollapsible(t().rosterHeading, roster.length);
-    built.details.open = true;
 
     if (s.rounds_completed !== undefined && s.rounds_total !== undefined) {
       built.content.appendChild(el("p", "panel__note st4-roster-note", t().rosterRoundsNote(s.rounds_completed, s.rounds_total)));
