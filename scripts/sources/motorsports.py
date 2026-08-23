@@ -17,6 +17,13 @@ region」参照)。GR86が実際に参戦を確認できたのは以下:
     `st_supra_teams.py`と同じ技術基盤(supertaikyu.com)で、ST-4クラスの全10チームを一覧
     表示し、該当車種のみハイライトする(`super_taikyu_st4.py`)。日程・チームランキング・
     参戦ドライバーはいずれも公式サイトの実データ。
+  - 日本・アジア(追加): 全日本ラリー選手権(JN-4クラス)・全日本ジムカーナ選手権(PN4クラス)・
+    全日本ダートトライアル選手権(PN3クラス) — JAF(日本自動車連盟)公式サイト
+    (motorsports.jaf.or.jp)から、2026年8月にGR86の実参戦を確認したクラスを特定したうえで
+    (`jaf_series.py`のモジュールdocstring参照)、各クラスの年間日程・ドライバーズランキングを
+    実データ取得している。いずれも多クラス制の選手権のうち、GR86が実際に参戦しているクラスを
+    報道・公式トピックス記事で確認したうえで特定のクラスのみ掲載しており、選手権全体は掲載
+    していない(公式順位表自体には使用車種の列がないため、車種別ハイライトは行わない)。
   - オーストラリア: GR Cup Australia(旧Toyota 86 Racing Series。2024年からGR86に更新)。
     公式サイト(toyota.com.au/gazoo-racing/gr-cup)がHTTP 403を返しスクレイピング不可。
     サードパーティのsupercars.comにセッション単位の実結果ページはあるが、シーズン通算の
@@ -56,6 +63,14 @@ from .schedule import (
 from .schedule import fetch_all as fetch_all_schedules
 from .standings import fetch_gr_cup_driver_standings, fetch_gr_cup_team_standings
 from .super_taikyu_st4 import fetch as fetch_super_taikyu_st4
+from .jaf_series import (
+    DIRTTRIAL_PN3_CLASS_ID,
+    GYMKHANA_PN4_CLASS_ID,
+    RALLY_JN4_CLASS_ID,
+)
+from .jaf_series import fetch_calendar as fetch_jaf_calendar
+from .jaf_series import fetch_class_standings as fetch_jaf_class_standings
+from .jaf_series import finalize_calendar as finalize_jaf_calendar
 
 
 def _search_link(query: str) -> str:
@@ -133,6 +148,72 @@ REGIONS = {
                 },
                 "standings_search": "スーパー耐久 ST-4クラス 2026 シリーズランキング",
                 "schedule_link": "https://supertaikyu.com/race/index.html",
+                "has_real_schedule": True,
+                "has_real_standings": True,
+            },
+            {
+                "key": "jaf_rally_jn4",
+                "label": "全日本ラリー選手権 JN-4クラス(GR86参戦確認済み・日本)",
+                "vehicle": "gr86",
+                "queries": {
+                    "topics": [
+                        ("全日本ラリー選手権 GR86", "ja", "JP", "JP:ja"),
+                        ("全日本ラリー選手権 JN-4", "ja", "JP", "JP:ja"),
+                        ("全日本ラリー選手権", "ja", "JP", "JP:ja"),
+                    ],
+                    "results": [
+                        ("全日本ラリー選手権 GR86 優勝 OR 表彰台 OR リザルト", "ja", "JP", "JP:ja"),
+                    ],
+                    "standings": [
+                        ("全日本ラリー選手権 JN-4 ランキング OR ポイントランキング", "ja", "JP", "JP:ja"),
+                    ],
+                },
+                "standings_search": "全日本ラリー選手権 JN-4クラス 2026 ランキング",
+                "schedule_link": "https://motorsports.jaf.or.jp/calendar/2026/rally/jrc",
+                "has_real_schedule": True,
+                "has_real_standings": True,
+            },
+            {
+                "key": "jaf_gymkhana_pn4",
+                "label": "全日本ジムカーナ選手権 PN4クラス(GR86参戦確認済み・日本)",
+                "vehicle": "gr86",
+                "queries": {
+                    "topics": [
+                        ("全日本ジムカーナ選手権 GR86", "ja", "JP", "JP:ja"),
+                        ("全日本ジムカーナ選手権 PN4", "ja", "JP", "JP:ja"),
+                        ("全日本ジムカーナ選手権", "ja", "JP", "JP:ja"),
+                    ],
+                    "results": [
+                        ("全日本ジムカーナ選手権 GR86 優勝 OR 表彰台 OR リザルト", "ja", "JP", "JP:ja"),
+                    ],
+                    "standings": [
+                        ("全日本ジムカーナ選手権 PN4 ランキング OR ポイントランキング", "ja", "JP", "JP:ja"),
+                    ],
+                },
+                "standings_search": "全日本ジムカーナ選手権 PN4クラス 2026 ランキング",
+                "schedule_link": "https://motorsports.jaf.or.jp/calendar/2026/gymkhana/jgc",
+                "has_real_schedule": True,
+                "has_real_standings": True,
+            },
+            {
+                "key": "jaf_dirttrial_pn3",
+                "label": "全日本ダートトライアル選手権 PN3クラス(GR86参戦確認済み・日本)",
+                "vehicle": "gr86",
+                "queries": {
+                    "topics": [
+                        ("全日本ダートトライアル選手権 GR86", "ja", "JP", "JP:ja"),
+                        ("全日本ダートトライアル選手権 PN3", "ja", "JP", "JP:ja"),
+                        ("全日本ダートトライアル選手権", "ja", "JP", "JP:ja"),
+                    ],
+                    "results": [
+                        ("全日本ダートトライアル選手権 GR86 優勝 OR 表彰台 OR リザルト", "ja", "JP", "JP:ja"),
+                    ],
+                    "standings": [
+                        ("全日本ダートトライアル選手権 PN3 ランキング OR ポイントランキング", "ja", "JP", "JP:ja"),
+                    ],
+                },
+                "standings_search": "全日本ダートトライアル選手権 PN3クラス 2026 ランキング",
+                "schedule_link": "https://motorsports.jaf.or.jp/calendar/2026/dirt-trial/jdc",
                 "has_real_schedule": True,
                 "has_real_standings": True,
             }
@@ -294,6 +375,26 @@ def fetch() -> dict:
         {"position": t["position"], "name": t["team"], "points": t["points"]} for t in st4_data["teams"]
     ]
     st4["standings_chart_note"] = st4_data["error"] or st4_data["note"]
+
+    # 全日本ラリー(JN-4)/ジムカーナ(PN4)/ダートトライアル(PN3) — いずれもJAF公式サイトから
+    # 年間日程・ドライバーズランキングを実データ取得する(使用車種の列がないため車種別
+    # ハイライトはできない。GR86が実際に参戦しているクラスであることは事前調査で確認済み)。
+    jaf_series_wiring = [
+        (result["japan_asia"]["series"][2], "rally/jrc", "rally/2026/jrc", RALLY_JN4_CLASS_ID,
+         "全日本ラリー選手権 JN-4クラス ドライバーズランキング(JAF公式サイト実データ)。"),
+        (result["japan_asia"]["series"][3], "gymkhana/jgc", "gymkhana/2026/jgc", GYMKHANA_PN4_CLASS_ID,
+         "全日本ジムカーナ選手権 PN4クラス ドライバーズランキング(JAF公式サイト実データ)。"),
+        (result["japan_asia"]["series"][4], "dirt-trial/jdc", "dirt-trial/2026/jdc", DIRTTRIAL_PN3_CLASS_ID,
+         "全日本ダートトライアル選手権 PN3クラス ドライバーズランキング(JAF公式サイト実データ)。"),
+    ]
+    for series, cal_path, standings_path, class_id, note_prefix in jaf_series_wiring:
+        series["schedule"] = finalize_jaf_calendar(fetch_jaf_calendar(cal_path))
+        std = fetch_jaf_class_standings(standings_path, class_id, limit=20)
+        series["standings_chart"] = std["standings"]
+        series["standings_chart_note"] = std["error"] or (
+            note_prefix + "使用車種の列がないため、GR86ドライバー個別のハイライトは行っていません"
+            "(このクラス自体をGR86参戦クラスとして事前調査で特定しています)。"
+        )
 
     # 豪州/MX-5 Cupはスクレイピングせずリンクアウトのみである理由を明示する。
     result["australia"]["series"][0]["schedule_chart_note"] = (

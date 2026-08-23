@@ -46,6 +46,11 @@
       },
       rosterPointsUnit: "pt",
       rosterNoData: "順位データなし",
+      rosterUnverified: "一次資料未裏取り",
+      photoPlaceholder: "写真なし",
+      photoCredit: function (credit, license) {
+        return "写真: " + credit + "（" + license + "、Wikimedia Commons経由）";
+      },
       standingsSearchLink: "公式ランキングを検索 ↗",
       scheduleLinkText: "公式スケジュールを見る ↗",
       unitCount: "件",
@@ -98,6 +103,9 @@
         gr_cup: "Toyota GR Cup(GR86 Cup Edition ワンメイクレース)",
         tgr_86brz_cup: "TGR GR86/BRZ Cup(スーパーGT併催・日本)",
         super_taikyu_st4: "スーパー耐久 ST-4クラス(多メーカー混走・日本)",
+        jaf_rally_jn4: "全日本ラリー選手権 JN-4クラス(GR86参戦確認済み・日本)",
+        jaf_gymkhana_pn4: "全日本ジムカーナ選手権 PN4クラス(GR86参戦確認済み・日本)",
+        jaf_dirttrial_pn3: "全日本ダートトライアル選手権 PN3クラス(GR86参戦確認済み・日本)",
         gr_cup_australia: "GR Cup Australia(旧Toyota 86 Racing Series)",
         tmg_gt86_cup_vln: "TMG GT86 Cup(独ニュルブルクリンク VLN/NLS内クラス・現行開催は未確認)",
         mx5_cup: "Mazda MX-5 Cup(IMSA主催・北米)",
@@ -146,6 +154,11 @@
       },
       rosterPointsUnit: "pt",
       rosterNoData: "No standings data",
+      rosterUnverified: "not independently verified",
+      photoPlaceholder: "No photo",
+      photoCredit: function (credit, license) {
+        return "Photo: " + credit + " (" + license + "), via Wikimedia Commons";
+      },
       standingsSearchLink: "Search official standings ↗",
       scheduleLinkText: "View official schedule ↗",
       unitCount: "",
@@ -199,6 +212,9 @@
         tmg_gt86_cup_vln: "TMG GT86 Cup (class within Germany's Nürburgring VLN/NLS series — current status unconfirmed)",
         tgr_86brz_cup: "TGR GR86/BRZ Cup (Super GT support race, Japan)",
         super_taikyu_st4: "Super Taikyu ST-4 Class (multi-manufacturer, Japan)",
+        jaf_rally_jn4: "All Japan Rally Championship JN-4 Class (confirmed GR86 entries, Japan)",
+        jaf_gymkhana_pn4: "All Japan Gymkhana Championship PN4 Class (confirmed GR86 entries, Japan)",
+        jaf_dirttrial_pn3: "All Japan Dirt Trial Championship PN3 Class (confirmed GR86 entries, Japan)",
         gr_cup_australia: "GR Cup Australia (formerly Toyota 86 Racing Series)",
         mx5_cup: "Mazda MX-5 Cup (IMSA-sanctioned, North America)",
       },
@@ -757,6 +773,22 @@
       var highlighted = team.vehicle && VEHICLE_KEYS.indexOf(team.vehicle) !== -1;
       var card = el("div", "st4-team-card" + (highlighted ? " st4-team-card--highlight st4-team-card--" + team.vehicle : ""));
 
+      if (team.photo) {
+        var img = el("img", "st4-team-card__photo");
+        img.src = team.photo.src;
+        img.alt = team.team;
+        img.loading = "lazy";
+        card.appendChild(img);
+        var credit = el("a", "st4-team-card__photo-credit");
+        credit.href = team.photo.source_url;
+        credit.target = "_blank";
+        credit.rel = "noopener noreferrer";
+        credit.textContent = t().photoCredit(team.photo.credit, team.photo.license);
+        card.appendChild(credit);
+      } else {
+        card.appendChild(el("div", "st4-team-card__photo st4-team-card__photo--placeholder", t().photoPlaceholder));
+      }
+
       var top = el("div", "st4-team-card__top");
       top.appendChild(el("span", "st4-team-card__pos", "#" + team.position));
       var nameWrap = el("div", "st4-team-card__name-wrap");
@@ -772,6 +804,13 @@
         card.appendChild(el("div", "st4-team-card__points", team.points + t().rosterPointsUnit));
       } else {
         card.appendChild(el("div", "st4-team-card__points", t().rosterNoData));
+      }
+
+      if (team.description) {
+        card.appendChild(el("p", "st4-team-card__desc", pick(team.description)));
+        if (team.verified === "web_search_only") {
+          card.appendChild(el("span", "st4-team-card__unverified", t().rosterUnverified));
+        }
       }
 
       var drivers = team.drivers || [];
