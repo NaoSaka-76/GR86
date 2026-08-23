@@ -753,19 +753,21 @@
    * schedule/ranking/topics below it use the collapsed-by-default pattern instead. */
   function buildRosterBlock(s) {
     var wrap = el("div", "series-card__group");
-    var titleText = t().rosterHeading;
-    if (s.rounds_completed !== undefined && s.rounds_total !== undefined) {
-      titleText += " (" + s.rounds_completed + "/" + s.rounds_total + ")";
-    }
-    wrap.appendChild(el("div", "series-card__group-title", titleText));
-
     var roster = s.roster || [];
+
     if (roster.length === 0) {
+      wrap.appendChild(el("div", "series-card__group-title", t().rosterHeading));
       wrap.appendChild(el("p", "panel__empty", t().panelEmpty));
       return wrap;
     }
+
+    // Primary content of this card — collapsible like schedule/ranking below it, but
+    // defaults OPEN (schedule/ranking default closed).
+    var built = buildCollapsible(t().rosterHeading, roster.length);
+    built.details.open = true;
+
     if (s.rounds_completed !== undefined && s.rounds_total !== undefined) {
-      wrap.appendChild(el("p", "panel__note st4-roster-note", t().rosterRoundsNote(s.rounds_completed, s.rounds_total)));
+      built.content.appendChild(el("p", "panel__note st4-roster-note", t().rosterRoundsNote(s.rounds_completed, s.rounds_total)));
     }
 
     var grid = el("div", "st4-roster-grid");
@@ -824,7 +826,8 @@
 
       grid.appendChild(card);
     });
-    wrap.appendChild(grid);
+    built.content.appendChild(grid);
+    wrap.appendChild(built.details);
     return wrap;
   }
 
