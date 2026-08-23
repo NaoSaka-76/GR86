@@ -1,11 +1,12 @@
 {
   "note": {
-    "ja": "GR86・BRZ・ロードスター(MX-5)を、日本市場・オーストラリア市場それぞれのグレード(トリム)別価格で比較する参考データです。手動で調査・更新しており(30分おきの自動収集の対象外)、価格は為替・改良・在庫状況等で変動するため参考値としてご利用ください。メーカー公式サイトから直接確認できなかった項目は、複数の自動車メディア報道を突き合わせたうえで「confirmed: media」と明記し、情報源間で数値に差異がある項目は「reference-only」として明示しています。",
-    "en": "A hand-curated reference comparing the GR86, BRZ, and MX-5 (Roadster) by individual grade/trim pricing in the Japan and Australia markets specifically. Unlike the auto-scraped sections, this is manually researched and updated occasionally (not every 30 minutes) — treat figures as reference values, since they shift with exchange rates, running changes, and dealer stock. Where a figure could not be confirmed directly from the manufacturer's own site, it's marked confirmed: \"media\" (cross-checked against outlet reporting instead). Anything with a discrepancy between sources is explicitly marked reference-only.",
+    "ja": "GR86・BRZ・ロードスター(MX-5)を、日本・米国・オーストラリア各市場のグレード(トリム)別価格で比較する参考データです。手動で調査・更新しており(30分おきの自動収集の対象外)、価格は為替・改良・在庫状況等で変動するため参考値としてご利用ください。メーカー公式サイトから直接確認できなかった項目は、複数の自動車メディア報道を突き合わせたうえで「confirmed: media」と明記し、情報源間で数値に差異がある項目は「reference-only」として明示しています。",
+    "en": "A hand-curated reference comparing the GR86, BRZ, and MX-5 (Roadster) by individual grade/trim pricing in the Japan, US, and Australia markets specifically. Unlike the auto-scraped sections, this is manually researched and updated occasionally (not every 30 minutes) — treat figures as reference values, since they shift with exchange rates, running changes, and dealer stock. Where a figure could not be confirmed directly from the manufacturer's own site, it's marked confirmed: \"media\" (cross-checked against outlet reporting instead). Anything with a discrepancy between sources is explicitly marked reference-only.",
     "last_updated": "2026-08-23"
   },
   "markets": {
     "jp": { "label": { "ja": "日本", "en": "Japan" }, "currency": "JPY", "symbol": "¥" },
+    "us": { "label": { "ja": "米国", "en": "United States" }, "currency": "USD", "symbol": "$" },
     "au": { "label": { "ja": "オーストラリア", "en": "Australia" }, "currency": "AUD", "symbol": "A$" }
   },
   "vehicles": {
@@ -22,6 +23,20 @@
             { "name": "SZ", "price": 3293000, "transmission": "6AT" },
             { "name": "RZ", "price": 3518000, "transmission": "6MT" },
             { "name": "RZ", "price": 3616000, "transmission": "6AT" }
+          ]
+        },
+        "us": {
+          "confirmed": "media",
+          "as_of": "2026年型",
+          "source": { "label": "Cars.com(トヨタ公式価格を引用する自動車メディア)", "url": "https://www.cars.com/articles/how-much-is-the-2026-toyota-gr86-516708/" },
+          "price_basis_note": {
+            "ja": "目的地諸費用(Destination Charge)$1,195を含まない本体価格。トヨタ公式(toyota.com)の価格表を検索スニペットから直接取得できなかったため、公式価格を引用するCars.com/CarBuzzの報道を採用。全グレードMT標準、AT設定車は+$1,100。",
+            "en": "Prices exclude the $1,195 destination charge. Toyota's own site (toyota.com) could not be pulled directly, so figures are cross-checked via Cars.com/CarBuzz reporting that cites Toyota's official pricing. All grades are manual-standard; automatic adds $1,100."
+          },
+          "grades": [
+            { "name": "GR86 (Base)", "price": 30800, "transmission": "6MT (AT +$1,100)" },
+            { "name": "Premium", "price": 33400, "transmission": "6MT (AT +$1,100)" },
+            { "name": "Yuzu Edition(限定860台)", "price": 36365, "transmission": "6MT" }
           ]
         },
         "au": {
@@ -54,6 +69,21 @@
             { "name": "S", "price": 3597000, "transmission": "6AT" },
             { "name": "STI Sport", "price": 3839000, "transmission": "6MT" },
             { "name": "STI Sport", "price": 3872000, "transmission": "6AT" }
+          ]
+        },
+        "us": {
+          "confirmed": "official",
+          "as_of": "2026年型(Premiumグレードは2026年型で廃止。2025年販売の1割未満だったため)",
+          "source": { "label": "Subaru of America 公式プレスリリース", "url": "https://media.subaru.com/pressrelease/2369/subaru-america-announces-pricing-2026-subaru-brz" },
+          "price_basis_note": {
+            "ja": "目的地諸費用(Destination Charge)$1,195(アラスカ州のみ$1,345)を含まない本体価格。",
+            "en": "Prices exclude the $1,195 destination charge ($1,345 in Alaska)."
+          },
+          "grades": [
+            { "name": "Limited", "price": 35860, "transmission": "6MT" },
+            { "name": "Limited", "price": 36710, "transmission": "6AT" },
+            { "name": "tS(STIチューン)", "price": 38360, "transmission": "6MT" },
+            { "name": "Series.Yellow(新設・限定350台)", "price": 39360, "transmission": "6MT" }
           ]
         },
         "au": {
@@ -98,6 +128,24 @@
             { "name": "RF RS(RFハードトップ)", "price": 4367000, "transmission": "6MT" },
             { "name": "RF 最上位グレード(名称未確定)", "price": 4697000, "transmission": "6MT", "confirmed": false,
               "notes": { "ja": "報道内の総額レンジ(¥2,959,000〜¥4,697,000)から存在が示唆される最上位価格帯だが、正式なグレード名を確認できていない(RF RSの上位オプション装着車の可能性)。", "en": "Implied by the reported overall price range (¥2,959,000–¥4,697,000), but the exact grade name behind this top figure could not be confirmed (possibly an optioned-up RF RS rather than a distinct grade)." } }
+          ]
+        },
+        "us": {
+          "confirmed": "official",
+          "as_of": "2026年型",
+          "source": { "label": "Mazda USA 公式プレスリリース", "url": "https://news.mazdausa.com/2026-01-27-2026-Mazda-MX-5-Miata-Pricing-and-Packaging" },
+          "price_basis_note": {
+            "ja": "目的地諸費用(Destination Charge)$1,315(アラスカ州は$1,360)を含まない本体価格。ソフトトップのSport/ClubはMT専用、RFのClubもMT専用(Brembo/BBS/Recaroパッケージ標準装備)。ATはGrand Touringグレード(ソフトトップ/RFとも)のみ選択可。",
+            "en": "Prices exclude the $1,315 destination charge ($1,360 in Alaska). Soft-top Sport/Club and RF Club are manual-only (RF Club includes the Brembo/BBS/Recaro package standard). Automatic is only offered on Grand Touring (both soft-top and RF)."
+          },
+          "grades": [
+            { "name": "Sport(ソフトトップ)", "price": 30430, "transmission": "6MT" },
+            { "name": "Club(ソフトトップ)", "price": 33930, "transmission": "6MT" },
+            { "name": "Grand Touring(ソフトトップ)", "price": 35730, "transmission": "6MT" },
+            { "name": "Grand Touring(ソフトトップ)", "price": 36650, "transmission": "6AT" },
+            { "name": "Club(RFハードトップ)", "price": 41900, "transmission": "6MT" },
+            { "name": "Grand Touring(RFハードトップ)", "price": 38450, "transmission": "6MT" },
+            { "name": "Grand Touring(RFハードトップ)", "price": 39420, "transmission": "6AT" }
           ]
         },
         "au": {

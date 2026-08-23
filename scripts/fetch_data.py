@@ -3,20 +3,23 @@ site/data/latest.jsonへ出力する。
 
 30分おきにGitHub Actionsから実行される想定。
 
-セクション構成(2026年8月の再編後):
-  1. news_reviews_gr86  — GR86の公式リリース+メディア評価記事を統合した1パネル
-  2. news_reviews_other — BRZ + ロードスター(MX-5)の公式リリース+メディア評価記事を統合した1パネル
-  3. youtube             — GR86/トヨタ86/BRZ/ロードスターの人気(トレンド)/新着(最新)動画
-  4. social_buzz         — 同4車種のSNS話題(トレンド/最新タブ切替)
-  5. complaints          — GR86/BRZ/ロードスターのお客様の声・クレーム(トレンド/最新タブ切替)
-  6. events              — 世界各地のイベント情報(従来どおり)
-  7. motorsports         — GR86モータースポーツ(トピックス速報 + フォーマット静的解説)
+セクション構成(2026年9月の再編後):
+  1. news_reviews  — GR86/BRZ/ロードスター(MX-5)の公式リリース+メディア評価記事を統合した
+                      1パネル(以前はGR86グループ/BRZ・MX-5グループの2パネルに分割していたが、
+                      1パネル+フロントエンド側の すべて/GR86/BRZ/ロードスター フィルタに統合)
+  2. youtube        — GR86/トヨタ86/BRZ/ロードスターの人気(トレンド)/新着(最新)動画
+  3. social_buzz    — 同4車種のSNS話題(トレンド/最新タブ切替)
+  4. complaints     — GR86/BRZ/ロードスターのお客様の声・クレーム(トレンド/最新タブ切替)
+  5. events         — 世界各地のイベント情報(従来どおり)
+  6. motorsports    — GR86モータースポーツ(トピックス速報 + フォーマット静的解説)
 
 (2026年8月: GR Cup北米の参戦チーム名簿セクションは削除。スケジュール/ランキングの実データ
 表示は引き続きmotorsportsセクション内に残す。)
 
 トヨタ86(GT86/FT86)はYouTube/SNS話題のみを対象とする(生産終了モデルのため公式リリース/
-メディア評価/クレームは対象外。events/motorsportsも対象外)。
+メディア評価/クレームは対象外。events/motorsportsも対象外)。フロントエンドの すべて/GR86/
+BRZ/ロードスター フィルタでは、トヨタ86はGR86バケットに統合して表示する(バックエンド側の
+"vehicle"タグ自体は"toyota86"のまま保持し、個別バッジ表示にも使う)。
 """
 
 from __future__ import annotations
@@ -54,18 +57,16 @@ YOUTUBE_QUERIES_JP = {
     "mx5": ["ロードスター マツダ"],
 }
 
-GR86_ONLY = {"gr86"}
-BRZ_MX5 = {"brz", "mx5"}
-
-
 def _with_sentiment(items: list[dict]) -> list[dict]:
     return sentiment.attach_sentiment(items)
 
 
-def _news_reviews_sections() -> dict:
-    """公式リリース(official_news)とメディア評価(media_reviews)を統合し、車種グループ別に
-    2パネル分の項目リストへ分割する。各項目には "kind" (official_news / media_review) を
-    付与し、フロントエンド側で種別バッジを出せるようにする。
+def _news_reviews_section() -> dict:
+    """公式リリース(official_news)とメディア評価(media_reviews)をGR86/BRZ/ロードスター
+    全車種横断で1つのフィードに統合する。各項目には "kind" (official_news / media_review)
+    を付与し、フロントエンド側で種別バッジ・すべて/GR86/BRZ/ロードスターフィルタを出せる
+    ようにする(車種別の絞り込みはフロントエンドのフィルタボタンが担い、バックエンド側では
+    グループ分けしない)。
     """
     official_items = _with_sentiment(official_news.fetch())
     for item in official_items:
@@ -75,19 +76,11 @@ def _news_reviews_sections() -> dict:
     for item in media_items:
         item["kind"] = "media_review"
 
-    combined = official_items + media_items
-    gr86_items = sort_by_recency([it for it in combined if it.get("vehicle") in GR86_ONLY])
-    other_items = sort_by_recency([it for it in combined if it.get("vehicle") in BRZ_MX5])
+    combined = sort_by_recency(official_items + media_items)
 
     return {
-        "news_reviews_gr86": {
-            "label": "GR86 公式リリース & メディア評価",
-            "items": gr86_items,
-        },
-        "news_reviews_other": {
-            "label": "BRZ / ロードスター(MX-5) 公式リリース & メディア評価",
-            "items": other_items,
-        },
+        "label": "公式リリース & メディア評価",
+        "items": combined,
     }
 
 
@@ -146,7 +139,7 @@ def build_dashboard() -> dict:
     complaint_data = complaints.fetch()
 
     sections = {}
-    sections.update(_news_reviews_sections())
+    sections["news_reviews"] = _news_reviews_section()
     sections["youtube"] = _youtube_section()
     sections["social_buzz"] = _social_buzz_section()
     sections["complaints"] = {

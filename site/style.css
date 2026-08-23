@@ -203,23 +203,23 @@ a { color: inherit; }
 .lang-toggle__btn:hover { color: var(--ink); }
 .lang-toggle__btn.is-active { background: var(--accent); color: var(--accent-ink); }
 
-/* ---- Vehicle filter ---- */
+/* ---- Per-section vehicle filter (すべて/GR86/BRZ/ロードスター) ----
+   Moved from a single global header control to an independent filter bar inside each
+   panel that supports it (official+media, YouTube, social buzz, complaints). */
 
-.vehicle-filter {
-  max-width: 1360px;
-  margin: 0 auto;
-  padding: 0 24px 16px;
+.section-filter {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  padding: 12px 20px 0;
 }
 
-.vehicle-filter__btn {
+.section-filter__btn {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   letter-spacing: 0.02em;
-  padding: 7px 16px;
+  padding: 6px 14px;
   border-radius: 999px;
   border: 1px solid var(--line);
   background: var(--surface-sunken);
@@ -229,17 +229,16 @@ a { color: inherit; }
   align-items: center;
   gap: 6px;
 }
-.vehicle-filter__dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
-.vehicle-filter__btn:hover { color: var(--ink); border-color: var(--ink-muted); }
-.vehicle-filter__btn.is-active {
+.section-filter__dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.section-filter__btn:hover { color: var(--ink); border-color: var(--ink-muted); }
+.section-filter__btn.is-active {
   background: var(--ink);
   border-color: var(--ink);
   color: var(--bg);
 }
-.vehicle-filter__btn[data-vehicle="gr86"].is-active { background: var(--veh-gr86); border-color: var(--veh-gr86); color: #1a0304; }
-.vehicle-filter__btn[data-vehicle="toyota86"].is-active { background: var(--veh-toyota86); border-color: var(--veh-toyota86); color: #16171c; }
-.vehicle-filter__btn[data-vehicle="brz"].is-active { background: var(--veh-brz); border-color: var(--veh-brz); color: #051524; }
-.vehicle-filter__btn[data-vehicle="mx5"].is-active { background: var(--veh-mx5); border-color: var(--veh-mx5); color: #241100; }
+.section-filter__btn[data-vehicle="gr86"].is-active { background: var(--veh-gr86); border-color: var(--veh-gr86); color: #1a0304; }
+.section-filter__btn[data-vehicle="brz"].is-active { background: var(--veh-brz); border-color: var(--veh-brz); color: #051524; }
+.section-filter__btn[data-vehicle="mx5"].is-active { background: var(--veh-mx5); border-color: var(--veh-mx5); color: #241100; }
 
 /* ---- Stat strip ---- */
 
