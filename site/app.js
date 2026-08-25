@@ -30,6 +30,9 @@
       sentimentTipNegative: " という語がネガティブと判定されました",
       sentimentReasonPrefix: "判定根拠: ",
       itemUnknownTitle: "(タイトル不明)",
+      digestTitle: "直近24時間ダイジェスト",
+      digestNote: "各セクションで過去24時間以内に更新された件数です(記事・動画・モータースポーツ関連ニュース等の合計)。行をクリックすると該当セクションへ移動します。",
+      newBadge: "24時間以内",
       panelEmpty: "現在、該当する情報はありません。",
       seriesEmpty: "該当情報なし",
       scheduleUnavailable: "日程情報を取得できませんでした。",
@@ -138,6 +141,9 @@
       sentimentTipNegative: " matched as negative",
       sentimentReasonPrefix: "Matched words: ",
       itemUnknownTitle: "(untitled)",
+      digestTitle: "Last 24 Hours Digest",
+      digestNote: "Counts of items updated within the last 24 hours per section (articles, videos, motorsports news, etc.). Click a row to jump to that section.",
+      newBadge: "Within 24h",
       panelEmpty: "No items right now.",
       seriesEmpty: "No items right now.",
       scheduleUnavailable: "Could not fetch a schedule.",
@@ -298,6 +304,9 @@
     book:
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' +
       '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',
+    clock:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
+      '<circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2"/><path d="M9 2h6"/></svg>',
   };
 
   /* ---------------------------------------------------------------------
@@ -353,6 +362,26 @@
     return raw;
   }
 
+  /** True if an item was published/fetched within the last 24 hours. YouTube items carry
+   * recency_seconds (elapsed seconds at fetch time); everything else (Google News RSS
+   * items) is checked against its RFC-822 "published" date string. */
+  function isWithin24h(item) {
+    if (typeof item.recency_seconds === "number") {
+      return item.recency_seconds <= 86400;
+    }
+    if (item.published) {
+      var parsed = Date.parse(item.published);
+      if (!isNaN(parsed)) {
+        return Date.now() - parsed <= 86400000;
+      }
+    }
+    return false;
+  }
+
+  function countRecent(items) {
+    return (items || []).filter(isWithin24h).length;
+  }
+
   function vehicleBadge(vehicle) {
     if (!vehicle || VEHICLE_KEYS.indexOf(vehicle) === -1) return null;
     return el("span", "vehicle-badge vehicle-badge--" + vehicle, t().vehicleFilter[vehicle]);
@@ -384,7 +413,8 @@
 
   function buildItem(item) {
     var sentimentLabel = item.sentiment ? item.sentiment.label : "neutral";
-    var a = el("a", "item item--" + sentimentLabel);
+    var recent = isWithin24h(item);
+    var a = el("a", "item item--" + sentimentLabel + (recent ? " item--recent" : ""));
     a.href = item.url || "#";
     a.target = "_blank";
     a.rel = "noopener noreferrer";
@@ -406,6 +436,7 @@
     body.appendChild(el("span", "item__title", item.title || t().itemUnknownTitle));
 
     var meta = el("div", "item__meta");
+    if (recent) meta.appendChild(el("span", "new-badge", t().newBadge));
     var badge = vehicleBadge(item.vehicle);
     if (badge) meta.appendChild(badge);
     var kb = kindBadge(item.kind);
@@ -472,6 +503,71 @@
     header.appendChild(el("h2", "panel__title", label));
     if (count !== undefined) header.appendChild(el("span", "panel__count", count + (t().unitCount ? " " + t().unitCount : "")));
     return header;
+  }
+
+  /** Top-of-page digest: one row per section showing how many of its items were
+   * updated within the last 24 hours. Clicking a row smooth-scrolls to that section
+   * (each panel gets a matching id="section-{key}" in render()). Static reference
+   * catalogs (motorsports_formats, rivals) are intentionally excluded — they're
+   * hand-curated data that never gets a "recent" timestamp, not live news. */
+  function buildDigestPanel(data) {
+    var i18n = t();
+    var sections = (data && data.sections) || {};
+    var rows = [];
+
+    if (sections.news_reviews) {
+      rows.push({ key: "news_reviews", label: i18n.sections.news_reviews, count: countRecent(sections.news_reviews.items) });
+    }
+    if (sections.youtube) {
+      var yt = sections.youtube;
+      var ytCount = 0;
+      // Count only the "new" (latest) lists, not "popular" — a fast-trending video can
+      // appear in both, and double-counting the same video would inflate the total.
+      if (yt.global) ytCount += countRecent(yt.global.new);
+      if (yt.jp) ytCount += countRecent(yt.jp.new);
+      rows.push({ key: "youtube", label: i18n.sections.youtube, count: ytCount });
+    }
+    if (sections.social_buzz) {
+      rows.push({ key: "social_buzz", label: i18n.sections.social_buzz, count: countRecent(sections.social_buzz.items) });
+    }
+    if (sections.complaints) {
+      rows.push({ key: "complaints", label: i18n.sections.complaints, count: countRecent(sections.complaints.items) });
+    }
+    if (sections.events) {
+      rows.push({ key: "events", label: i18n.sections.events, count: countRecent(sections.events.items) });
+    }
+    if (sections.motorsports && sections.motorsports.regions) {
+      var msCount = 0;
+      Object.values(sections.motorsports.regions).forEach(function (region) {
+        (region.series || []).forEach(function (s) {
+          msCount += countRecent(s.topics) + countRecent(s.results) + countRecent(s.standings);
+        });
+      });
+      rows.push({ key: "motorsports", label: i18n.sections.motorsports, count: msCount });
+    }
+
+    var totalCount = rows.reduce(function (sum, r) { return sum + r.count; }, 0);
+    var panel = el("section", "panel panel--full digest-panel");
+    panel.appendChild(buildPanelHeader("clock", i18n.digestTitle, totalCount));
+    if (i18n.digestNote) panel.appendChild(el("p", "panel__note", i18n.digestNote));
+
+    var list = el("div", "digest-list");
+    rows.forEach(function (r) {
+      var row = el("a", "digest-row" + (r.count > 0 ? " digest-row--active" : ""));
+      row.href = "#section-" + r.key;
+      row.addEventListener("click", function (evt) {
+        var target = document.getElementById("section-" + r.key);
+        if (target) {
+          evt.preventDefault();
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+      row.appendChild(el("span", "digest-row__label", r.label));
+      row.appendChild(el("span", "digest-row__count", String(r.count)));
+      list.appendChild(row);
+    });
+    panel.appendChild(list);
+    return panel;
   }
 
   function buildGenericPanel(icon, sectionKey, section, size) {
@@ -1209,13 +1305,19 @@
     buildStats(data);
 
     board.innerHTML = "";
+    board.appendChild(buildDigestPanel(data));
+
     LAYOUT.forEach(function (entry) {
       if (entry.key === "rivals") {
-        board.appendChild(buildRivalsPanel(entry.icon, rivalsData));
+        var rivalsPanel = buildRivalsPanel(entry.icon, rivalsData);
+        rivalsPanel.id = "section-" + entry.key;
+        board.appendChild(rivalsPanel);
         return;
       }
       if (entry.key === "motorsports_formats") {
-        board.appendChild(buildMotorsportsFormatsPanel(entry.icon, formatsData));
+        var formatsPanel = buildMotorsportsFormatsPanel(entry.icon, formatsData);
+        formatsPanel.id = "section-" + entry.key;
+        board.appendChild(formatsPanel);
         return;
       }
       var section = data.sections && data.sections[entry.key];
@@ -1232,6 +1334,7 @@
       } else {
         panel = buildGenericPanel(entry.icon, entry.key, section, entry.size);
       }
+      panel.id = "section-" + entry.key;
       board.appendChild(panel);
     });
 

@@ -325,6 +325,36 @@ a { color: inherit; }
 
 .panel__note { margin: 0; padding: 10px 20px; font-size: 0.8rem; line-height: 1.5; color: var(--ink-muted); background: var(--surface-sunken); border-bottom: 1px solid var(--line); }
 
+/* ---- Last-24-hours digest (top of page) ---- */
+
+.digest-panel { border-color: var(--accent); }
+
+.digest-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 20px 18px;
+}
+
+.digest-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface-sunken);
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+  text-decoration: none;
+  cursor: pointer;
+}
+.digest-row:hover, .digest-row:focus-visible { border-color: var(--accent); }
+.digest-row--active { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); }
+.digest-row__label { font-weight: 600; }
+.digest-row__count { font-family: var(--font-display); font-weight: 800; font-variant-numeric: tabular-nums; color: var(--ink-muted); }
+.digest-row--active .digest-row__count { color: var(--accent); }
+
 .tab-group { display: flex; gap: 6px; padding: 12px 20px 0; }
 .tab-group__btn {
   font-family: var(--font-display); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.02em;
@@ -342,6 +372,8 @@ a { color: inherit; }
 .item:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .item--positive { border-left-color: var(--good); }
 .item--negative { border-left-color: var(--critical); }
+.item--recent { background: var(--accent-soft); }
+.item--recent:hover, .item--recent:focus-visible { background: var(--surface-sunken); }
 .item.is-hidden { display: none; }
 
 .item__thumb { width: 108px; aspect-ratio: 16/9; object-fit: cover; border-radius: 6px; flex-shrink: 0; background: var(--surface-sunken); }
@@ -365,6 +397,20 @@ a { color: inherit; }
 .vehicle-badge--toyota86 { color: var(--veh-toyota86); background: var(--veh-toyota86-soft); }
 .vehicle-badge--brz { color: var(--veh-brz); background: var(--veh-brz-soft); }
 .vehicle-badge--mx5 { color: var(--veh-mx5); background: var(--veh-mx5-soft); }
+
+.new-badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.64rem;
+  letter-spacing: 0.03em;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  white-space: nowrap;
+}
 
 .kind-badge {
   font-family: var(--font-display);
