@@ -686,12 +686,12 @@
     var totalCount = global.popular.length + global.new.length + jp.popular.length + jp.new.length;
     panel.appendChild(buildPanelHeader(icon, t().sections.youtube || section.label, totalCount));
 
-    var currentTab = "trending";
+    var currentTab = "latest";
     var currentBucket = "all";
 
     var tabs = el("div", "tab-group");
-    var tabTrending = el("button", "tab-group__btn is-active", t().tabBuzz);
-    var tabLatest = el("button", "tab-group__btn", t().tabLatest);
+    var tabTrending = el("button", "tab-group__btn", t().tabBuzz);
+    var tabLatest = el("button", "tab-group__btn is-active", t().tabLatest);
     tabs.appendChild(tabTrending);
     tabs.appendChild(tabLatest);
     panel.appendChild(tabs);
