@@ -4,8 +4,10 @@
   /* ---------------------------------------------------------------------
    * I18N — all dashboard chrome copy lives here, keyed by stable ids that
    * also flow through the JSON (section keys, region keys, series keys,
-   * vehicle keys). Scraped article/video titles are NEVER translated —
-   * only this chrome. Persisted language choice lives in localStorage.
+   * vehicle keys). Scraped article/video titles are shown verbatim; when the
+   * UI is in Japanese, a best-effort machine translation is appended under any
+   * English headline (see queueTranslation). Persisted language choice lives
+   * in localStorage.
    * ------------------------------------------------------------------- */
 
   var I18N = {
@@ -362,6 +364,115 @@
     return raw;
   }
 
+  // ---- 見出し文の日本語訳(クライアント側でベストエフォート機械翻訳) ------------
+  //
+  // 30分毎のGitHub Actions実行(共有IP)からGoogle翻訳の非公式エンドポイントを
+  // 呼ぶとレート制限(HTTP 429)で確実に失敗するため、各閲覧者のブラウザから直接
+  // 呼び出す方式にしている(同エンドポイントは Access-Control-Allow-Origin: * で
+  // CORSが開放されている)。ページ表示自体は英語見出しのまま即座に行い、翻訳は
+  // 後追いで挿入する。UIが日本語(currentLang === "ja")のときだけ表示する。
+
+  var TRANSLATE_CACHE_KEY = "gr86watch_translate_cache_v1";
+  var TRANSLATE_CACHE_MAX = 500;
+  var translationQueue = [];
+  var translationActive = 0;
+  var TRANSLATE_CONCURRENCY = 2;
+  // 翻訳エンドポイントは1ページ内の見出し数(数百件)に対してレート制限(HTTP 429)が
+  // かかりやすいため、429を検知した時点で残りのキューは諦める。ページを再読み込み
+  // すれば再度試みる。
+  var translationRateLimited = false;
+
+  function needsJapaneseTranslation(text) {
+    return !!text && !/[぀-ヿ一-鿿]/.test(text);
+  }
+
+  function readTranslateCache() {
+    try {
+      var raw = localStorage.getItem(TRANSLATE_CACHE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function getCachedTranslation(text) {
+    return readTranslateCache()[text];
+  }
+
+  function setCachedTranslation(text, translated) {
+    try {
+      var cache = readTranslateCache();
+      cache[text] = translated;
+      var keys = Object.keys(cache);
+      if (keys.length > TRANSLATE_CACHE_MAX) {
+        keys.slice(0, keys.length - TRANSLATE_CACHE_MAX).forEach(function (k) {
+          delete cache[k];
+        });
+      }
+      localStorage.setItem(TRANSLATE_CACHE_KEY, JSON.stringify(cache));
+    } catch (e) {
+      // ストレージ利用不可(プライベートモード等)は無視して原文表示のみに留める
+    }
+  }
+
+  function translateToJapanese(text) {
+    var url =
+      "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ja&dt=t&q=" +
+      encodeURIComponent(text);
+    return fetch(url)
+      .then(function (res) {
+        if (res.status === 429) translationRateLimited = true;
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        return res.json();
+      })
+      .then(function (data) {
+        var translated = (data[0] || [])
+          .map(function (chunk) {
+            return chunk && chunk[0] ? chunk[0] : "";
+          })
+          .join("")
+          .trim();
+        return translated || null;
+      })
+      .catch(function () {
+        return null;
+      });
+  }
+
+  function insertTranslation(body, beforeEl, text) {
+    body.insertBefore(el("span", "item__title-ja", text), beforeEl);
+  }
+
+  function pumpTranslationQueue() {
+    if (translationRateLimited) {
+      translationQueue.length = 0;
+      return;
+    }
+    while (translationActive < TRANSLATE_CONCURRENCY && translationQueue.length > 0) {
+      var job = translationQueue.shift();
+      translationActive++;
+      translateToJapanese(job.text).then(function (translated) {
+        translationActive--;
+        if (translated) {
+          insertTranslation(job.body, job.beforeEl, translated);
+          setCachedTranslation(job.text, translated);
+        }
+        pumpTranslationQueue();
+      });
+    }
+  }
+
+  function queueTranslation(text, body, beforeEl) {
+    var cached = getCachedTranslation(text);
+    if (cached) {
+      insertTranslation(body, beforeEl, cached);
+      return;
+    }
+    if (translationRateLimited) return;
+    translationQueue.push({ text: text, body: body, beforeEl: beforeEl });
+    pumpTranslationQueue();
+  }
+
   /** True if an item was published/fetched within the last 24 hours. YouTube items carry
    * recency_seconds (elapsed seconds at fetch time); everything else (Google News RSS
    * items) is checked against its RFC-822 "published" date string. */
@@ -451,6 +562,10 @@
     }
     body.appendChild(meta);
     a.appendChild(body);
+
+    if (currentLang === "ja" && item.title && needsJapaneseTranslation(item.title)) {
+      queueTranslation(item.title, body, meta);
+    }
 
     return a;
   }
